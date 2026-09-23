@@ -123,6 +123,40 @@ topic:mcp              → 返回 n8n、JavaGuide、dify（只是打了 tag）
 **本地定时**（不想用 GitHub）：Windows 任务计划程序 / Linux cron 调
 `python collect.py` 即可，但电脑得开着。
 
+### ⚠️ 别让本地和 Actions 同时写数据
+
+这是实际踩过的坑，一定要看。
+
+`data/` 和 `reports/` 是生成物，**本地跑和 Actions 跑都会改它们**。如果两边都提交再合并，
+Git 会把两份追加内容**拼在一起** —— `history.csv` 直接翻倍，而且**不会有冲突提示**，
+因为两边都是「在文件末尾追加」，Git 判定为非冲突，静默拼接。
+
+**结论：把 Actions 当唯一的数据写入方。**
+
+本地只在调试时跑，而且**只提交代码，不提交数据**：
+
+```bash
+git add collect.py config.json README.md .gitattributes .github/
+git commit -m "改了什么"
+git push          # 注意：不含 data/ 和 reports/
+```
+
+如果确实要把本地采的数据传上去，先 `git pull`，再把远端数据取回来对一遍：
+
+```bash
+git pull
+git checkout origin/main -- data/ reports/
+# 确认没有重复行之后再提交
+```
+
+验证有没有重复行（同一天的行数应该等于品类数 × 每类条数）：
+
+```bash
+tail -n +2 data/history.csv | cut -d, -f1 | sort | uniq -c
+```
+
+正常情况是每天一行、只有一个计数；如果某天的数字翻倍，就是重复了。
+
 ## 已知限制
 
 - **只有开源项目。** GitHub 覆盖不到闭源 SaaS 工具（很多消费级 AI 产品不开源）。想看那部分，得加导航站数据源
