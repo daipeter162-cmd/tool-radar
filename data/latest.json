@@ -3,15 +3,15 @@
   "github": {
     "AI Agent": {
       "DietrichGebert/ponytail": {
-        "stars": 144649,
+        "stars": 144654,
         "url": "https://github.com/DietrichGebert/ponytail"
       },
       "Shubhamsaboo/awesome-llm-apps": {
-        "stars": 139498,
+        "stars": 139499,
         "url": "https://github.com/Shubhamsaboo/awesome-llm-apps"
       },
       "earendil-works/pi": {
-        "stars": 108718,
+        "stars": 108728,
         "url": "https://github.com/earendil-works/pi"
       },
       "google-gemini/gemini-cli": {
@@ -19,7 +19,7 @@
         "url": "https://github.com/google-gemini/gemini-cli"
       },
       "karpathy/autoresearch": {
-        "stars": 96623,
+        "stars": 96624,
         "url": "https://github.com/karpathy/autoresearch"
       },
       "Panniantong/Agent-Reach": {
@@ -31,7 +31,7 @@
         "url": "https://github.com/dair-ai/Prompt-Engineering-Guide"
       },
       "microsoft/ai-agents-for-beginners": {
-        "stars": 75482,
+        "stars": 75483,
         "url": "https://github.com/microsoft/ai-agents-for-beginners"
       },
       "thedaviddias/Front-End-Checklist": {
@@ -63,15 +63,15 @@
         "url": "https://github.com/aaif-goose/goose"
       },
       "coreyhaines31/marketingskills": {
-        "stars": 51258,
+        "stars": 51259,
         "url": "https://github.com/coreyhaines31/marketingskills"
       },
       "multica-ai/multica": {
-        "stars": 51184,
+        "stars": 51185,
         "url": "https://github.com/multica-ai/multica"
       },
       "bojieli/ai-agent-book": {
-        "stars": 50247,
+        "stars": 50255,
         "url": "https://github.com/bojieli/ai-agent-book"
       },
       "HKUDS/nanobot": {
@@ -83,11 +83,11 @@
         "url": "https://github.com/siyuan-note/siyuan"
       },
       "K-Dense-AI/scientific-agent-skills": {
-        "stars": 46216,
+        "stars": 46218,
         "url": "https://github.com/K-Dense-AI/scientific-agent-skills"
       },
       "vercel-labs/agent-browser": {
-        "stars": 43094,
+        "stars": 43096,
         "url": "https://github.com/vercel-labs/agent-browser"
       },
       "ToolJet/ToolJet": {
@@ -105,11 +105,11 @@
     },
     "LLM 应用": {
       "Shubhamsaboo/awesome-llm-apps": {
-        "stars": 139498,
+        "stars": 139499,
         "url": "https://github.com/Shubhamsaboo/awesome-llm-apps"
       },
       "rasbt/LLMs-from-scratch": {
-        "stars": 105437,
+        "stars": 105438,
         "url": "https://github.com/rasbt/LLMs-from-scratch"
       },
       "mlabonne/llm-course": {
@@ -117,7 +117,7 @@
         "url": "https://github.com/mlabonne/llm-course"
       },
       "Mintplex-Labs/anything-llm": {
-        "stars": 66354,
+        "stars": 66355,
         "url": "https://github.com/Mintplex-Labs/anything-llm"
       },
       "pathwaycom/llm-app": {
@@ -161,7 +161,7 @@
         "url": "https://github.com/karpathy/llm-council"
       },
       "datawhalechina/llm-cookbook": {
-        "stars": 24750,
+        "stars": 24751,
         "url": "https://github.com/datawhalechina/llm-cookbook"
       },
       "mlc-ai/mlc-llm": {
@@ -173,7 +173,7 @@
         "url": "https://github.com/AiHubCN/Awesome-Chinese-LLM"
       },
       "nashsu/llm_wiki": {
-        "stars": 19882,
+        "stars": 19883,
         "url": "https://github.com/nashsu/llm_wiki"
       },
       "mlc-ai/web-llm": {
@@ -207,7 +207,7 @@
     },
     "RAG 检索增强": {
       "infiniflow/ragflow": {
-        "stars": 91201,
+        "stars": 91203,
         "url": "https://github.com/infiniflow/ragflow"
       },
       "HKUDS/LightRAG": {
@@ -313,7 +313,7 @@
         "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools"
       },
       "addyosmani/agent-skills": {
-        "stars": 98561,
+        "stars": 98566,
         "url": "https://github.com/addyosmani/agent-skills"
       },
       "career-ops-hq/career-ops": {
@@ -321,7 +321,7 @@
         "url": "https://github.com/career-ops-hq/career-ops"
       },
       "Fission-AI/OpenSpec": {
-        "stars": 69922,
+        "stars": 69923,
         "url": "https://github.com/Fission-AI/OpenSpec"
       },
       "upstash/context7": {
@@ -329,11 +329,11 @@
         "url": "https://github.com/upstash/context7"
       },
       "calesthio/OpenMontage": {
-        "stars": 60975,
+        "stars": 60976,
         "url": "https://github.com/calesthio/OpenMontage"
       },
       "zhaoxuya520/reverse-skill": {
-        "stars": 36942,
+        "stars": 36943,
         "url": "https://github.com/zhaoxuya520/reverse-skill"
       },
       "esengine/DeepSeek-Reasonix": {
@@ -341,7 +341,7 @@
         "url": "https://github.com/esengine/DeepSeek-Reasonix"
       },
       "JCodesMore/ai-website-cloner-template": {
-        "stars": 34814,
+        "stars": 34815,
         "url": "https://github.com/JCodesMore/ai-website-cloner-template"
       },
       "TabbyML/tabby": {
@@ -349,11 +349,11 @@
         "url": "https://github.com/TabbyML/tabby"
       },
       "tirth8205/code-review-graph": {
-        "stars": 31725,
+        "stars": 31727,
         "url": "https://github.com/tirth8205/code-review-graph"
       },
       "decolua/9router": {
-        "stars": 29640,
+        "stars": 29641,
         "url": "https://github.com/decolua/9router"
       },
       "rohitg00/agentmemory": {
@@ -373,7 +373,7 @@
         "url": "https://github.com/OthmanAdi/planning-with-files"
       },
       "mksglu/context-mode": {
-        "stars": 23976,
+        "stars": 23975,
         "url": "https://github.com/mksglu/context-mode"
       },
       "coleam00/Archon": {
@@ -393,7 +393,7 @@
         "url": "https://github.com/plandex-ai/plandex"
       },
       "chenhg5/cc-connect": {
-        "stars": 15643,
+        "stars": 15644,
         "url": "https://github.com/chenhg5/cc-connect"
       },
       "greensock/gsap-skills": {
@@ -1023,7 +1023,7 @@
     },
     "工作流自动化": {
       "n8n-io/n8n": {
-        "stars": 205748,
+        "stars": 205750,
         "url": "https://github.com/n8n-io/n8n"
       },
       "HKUDS/nanobot": {
@@ -1439,6 +1439,10 @@
       "points": 23,
       "url": "https://seasonmap.app"
     },
+    "Show HN: Npunlock – Run custom C kernels for Intel NPUs": {
+      "points": 21,
+      "url": "https://github.com/hsfzxjy/npunlock"
+    },
     "Show HN: Gdocs-me-up: a high-fidelity Google Docs exporter": {
       "points": 20,
       "url": "https://github.com/behdad/gdocs-me-up"
@@ -1446,10 +1450,6 @@
     "Show HN: Free game to destroy any web page": {
       "points": 20,
       "url": "https://page-rage.com/"
-    },
-    "Show HN: Npunlock – Run custom C kernels for Intel NPUs": {
-      "points": 20,
-      "url": "https://github.com/hsfzxjy/npunlock"
     },
     "Show HN: AutoBot – live voice control for long-running AI work": {
       "points": 20,
@@ -1472,5 +1472,86 @@
       "url": "https://snailwalk.app/"
     }
   },
-  "producthunt": {}
+  "producthunt": {
+    "tiun.": {
+      "votes": 602,
+      "url": "https://www.producthunt.com/products/tiun-2"
+    },
+    "CREEM 2.0": {
+      "votes": 599,
+      "url": "https://www.producthunt.com/products/creem"
+    },
+    "Ami AI": {
+      "votes": 596,
+      "url": "https://www.producthunt.com/products/ami-ai"
+    },
+    "Mastra Factory": {
+      "votes": 572,
+      "url": "https://www.producthunt.com/products/mastra/launches/mastra-factory"
+    },
+    "Switch": {
+      "votes": 544,
+      "url": "https://www.producthunt.com/products/switch-11/launches/switch-14"
+    },
+    "Voiskey": {
+      "votes": 535,
+      "url": "https://www.producthunt.com/products/voiskey"
+    },
+    "Kilo Code for JetBrains": {
+      "votes": 533,
+      "url": "https://www.producthunt.com/products/kilocode/launches/kilo-code-for-jetbrains-2"
+    },
+    "Naoma AI Demo Agent V2": {
+      "votes": 532,
+      "url": "https://www.producthunt.com/products/naoma"
+    },
+    "x1": {
+      "votes": 532,
+      "url": "https://www.producthunt.com/products/x1-2/launches/x1-2"
+    },
+    "Jev": {
+      "votes": 529,
+      "url": "https://www.producthunt.com/products/jev-2"
+    },
+    "GPT-6 Astra": {
+      "votes": 527,
+      "url": "https://www.producthunt.com/products/openai/launches/gpt-6-astra-2"
+    },
+    "Monid": {
+      "votes": 503,
+      "url": "https://www.producthunt.com/products/monid/launches/monid-3"
+    },
+    "Anysite.io": {
+      "votes": 502,
+      "url": "https://www.producthunt.com/products/anysite"
+    },
+    "Superset Mobile": {
+      "votes": 501,
+      "url": "https://www.producthunt.com/products/superset-5"
+    },
+    "Kilo Code for iOS and Android": {
+      "votes": 497,
+      "url": "https://www.producthunt.com/products/kilocode"
+    },
+    "AINA": {
+      "votes": 492,
+      "url": "https://www.producthunt.com/products/aina"
+    },
+    "Clueso MCP": {
+      "votes": 490,
+      "url": "https://www.producthunt.com/products/clueso"
+    },
+    "PaymentKit": {
+      "votes": 470,
+      "url": "https://www.producthunt.com/products/paymentkit/launches/paymentkit"
+    },
+    "ProductBridge": {
+      "votes": 470,
+      "url": "https://www.producthunt.com/products/productbridge"
+    },
+    "Widgo": {
+      "votes": 449,
+      "url": "https://www.producthunt.com/products/widgo/launches/widgo"
+    }
+  }
 }
