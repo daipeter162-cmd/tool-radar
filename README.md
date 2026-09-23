@@ -1,5 +1,7 @@
 # tool-radar
 
+**简体中文** · [English](README.en.md)
+
 海外工具品类热度采集。每天自动跑，把变化量攒下来。
 
 **核心思路：单次排名没有意义，变化量才是信号。** 所以它每次都存快照，和上一次对比，输出「谁在涨、谁是新来的」。
@@ -88,13 +90,18 @@ reports/trend.png         趋势图，README 里引用
 reports/trend.csv         趋势图的数值版（图看不出来时查这个）
 ```
 
+`history.csv` 用 `source` 列区分来源（`github` / `producthunt` / `showhn`），
+三个源共用一张表，可以用一条查询同时看开源项目和闭源新品的走势。
+
 **报告怎么读，按价值排序：**
 
 1. **star 增速榜** — 对比上次涨了多少。这是最核心的信号，涨得快 = 需求在起
 2. **近期新建** — 180 天内创建的项目。新玩家进场的地方，机会最多
 3. **新进入榜** — 上次没出现、这次冒出来的
-4. **Hacker News 新讨论** — 早期声量，通常领先于 GitHub 数据
-5. **各品类明细** — 完整列表，用来查
+4. **Product Hunt 高票榜** — 近 30 天票数最高的闭源新品，看需求端
+5. **Show HN** — 近 7 天的新工具发布，最直接的竞品雷达
+6. **Hacker News 新讨论** — 早期声量，通常领先于其他数据
+7. **各品类明细** — 完整列表，用来查
 
 ## 配置
 
@@ -116,8 +123,8 @@ reports/trend.csv         趋势图的数值版（图看不出来时查这个）
     "min_points": 3
   },
   "producthunt": {
-    "days": 7,
-    "limit": 50
+    "days": 30,
+    "limit": 20
   },
   "categories": {
     "AI Agent": {
@@ -150,9 +157,13 @@ reports/trend.csv         趋势图的数值版（图看不出来时查这个）
 }
 ```
 
-## 查询语法怎么选（踩过的坑）
+## 踩过的坑
 
-**别用 `topic:`。** GitHub topic 是用户自己打的标签，热门项目会把所有热门 topic 都打一遍蹭曝光。实测：
+这一节记录的都是实测出来的结论，改配置前建议先看。
+
+### 别用 `topic:` 查询
+
+GitHub topic 是用户自己打的标签，热门项目会把所有热门 topic 都打一遍蹭曝光。实测：
 
 ```
 topic:vector-database  → 返回 anything-llm、llama_index（不是向量数据库）
@@ -171,14 +182,28 @@ topic:mcp              → 返回 n8n、JavaGuide、dify（只是打了 tag）
 可用限定符：`in:name`、`in:description`、`in:readme`、`in:topics`
 可用过滤：`stars:>100`、`pushed:>2026-01-01`、`language:python`
 
+### Product Hunt 必须按票数排，不能按时间
+
+`order: NEWEST` / `RANKING` 返回的都是刚发布几小时的帖子，**票数恒为 0**，等于没有热度信号。
+必须用 `order: VOTES`，它返回近期票数最高的一批（实测跨约三周）。
+
+另外实测 `first` 超过 20 无效，服务端就返回 20 条，所以靠单次翻页拿不到更多 —— 靠每天跑一次累积。
+
+### 从国内访问 PH 的 API 会间歇性断连
+
+实测约 **1/3 的请求**会在 TLS 层被中断（`SSL: UNEXPECTED_EOF_WHILE_READING`），但重试就能过。
+`_ph_post` 因此带了 4 次退避重试。注意这不是 GFW 拦截 —— 同一网络下 curl 是通的。
+
 ## 部署到 GitHub Actions（推荐）
 
 不用自己的机器一直开着，免费。
 
 1. 在 GitHub 建个仓库（public 无限免费；private 每月 2000 分钟免费额度，这个任务每天只跑 1 分钟）
 2. 把 `tool-radar/` 里的内容 push 上去
-3. 进 Actions 页面，手动触发一次 `采集品类热度` 验证
-4. 之后每天 UTC 01:17（北京时间 09:17）自动跑，结果自动 commit 回仓库
+3. 在 **Settings → Secrets and variables → Actions → Repository secrets** 里加一个 `PH_API_TOKEN`
+   （必须是 Repository secrets，不是 Environment secrets —— 后者需要在 workflow 里声明 `environment:` 才会注入）
+4. 进 Actions 页面，手动触发一次 `采集品类热度` 验证
+5. 之后每天 UTC 01:17（北京时间 09:17）自动跑，结果自动 commit 回仓库
 
 `GITHUB_TOKEN` 是 Actions 内置的，不用自己配。
 
@@ -187,18 +212,20 @@ topic:mcp              → 返回 n8n、JavaGuide、dify（只是打了 tag）
 
 ### ⚠️ 别让本地和 Actions 同时写数据
 
-这是实际踩过的坑，一定要看。
+这是实际踩过的坑。
 
 `data/` 和 `reports/` 是生成物，**本地跑和 Actions 跑都会改它们**。如果两边都提交再合并，
 Git 会把两份追加内容**拼在一起** —— `history.csv` 直接翻倍，而且**不会有冲突提示**，
 因为两边都是「在文件末尾追加」，Git 判定为非冲突，静默拼接。
+
+（`git merge -X ours` 也救不了 —— 它只作用于冲突块，而这种静默拼接不算冲突。）
 
 **结论：把 Actions 当唯一的数据写入方。**
 
 本地只在调试时跑，而且**只提交代码，不提交数据**：
 
 ```bash
-git add collect.py config.json README.md .gitattributes .github/
+git add collect.py config.json README.md README.en.md .gitattributes .github/
 git commit -m "改了什么"
 git push          # 注意：不含 data/ 和 reports/
 ```
@@ -211,26 +238,28 @@ git checkout origin/main -- data/ reports/
 # 确认没有重复行之后再提交
 ```
 
-验证有没有重复行（同一天的行数应该等于品类数 × 每类条数）：
+验证有没有重复行：
 
 ```bash
-tail -n +2 data/history.csv | cut -d, -f1 | sort | uniq -c
+python -c "import csv,collections; rows=list(csv.DictReader(open('data/history.csv',encoding='utf-8'))); print(collections.Counter(r['date'] for r in rows))"
 ```
 
-正常情况是每天一行、只有一个计数；如果某天的数字翻倍，就是重复了。
+正常情况每天一个计数条目。注意**别用 `cut -d,`** 来解析 —— 字段里含逗号时
+（比如 Product Hunt 的 topic）列会错位，要用正经的 CSV 解析器。
 
 ## 已知限制
 
-- **只有开源项目。** GitHub 覆盖不到闭源 SaaS 工具（很多消费级 AI 产品不开源）。想看那部分，得加导航站数据源
+- **只有开源项目 + Product Hunt**。GitHub 覆盖不到闭源 SaaS，PH 补上了一部分，但两边合起来仍不是全貌
 - **首次运行没有基线**，增速榜是空的。跑第二次才有意义
 - **未认证时 GitHub 搜索接口 10 次/分**，11 个品类会触发限流。代码里有退避重试，会自己恢复，但会慢一点。配个 token 更省事
 - HN 数据对小众品类覆盖较差（比如 MCP 一天可能只有 1 条）
+- **趋势图需要时间**。少于 2 天数据画不出趋势，会降级成柱状图
 
 ## 下一步可以加的数据源
 
 按性价比排：
 
-1. **Product Hunt** — 有官方 GraphQL API，需申请 token。覆盖闭源工具新品
-2. **AI 工具导航站**（toolify / futurepedia / theresanaiforthat）— 能拿到完整品类地图，但要写爬虫，对方改版就得修
-3. **Reddit** — 有 API，看垂直社区讨论
-4. **定时推送** — 增速榜有异动时推送到微信（Server酱）/ 邮件
+1. **AI 工具导航站**（toolify / futurepedia / theresanaiforthat）— 能拿到完整品类地图，但要写爬虫，对方改版就得修
+2. **Google Trends** — 回答「需求在涨还是在退」，`pytrends` 免费但会限流
+3. **Reddit** — 有 API，看垂直社区讨论和真实抱怨
+4. **定时推送** — 增速榜有异动时推送到微信（Server酱）/ 邮件。**可能是最实用的一条** —— 报告躺在仓库里，不加推送你不会天天去看
