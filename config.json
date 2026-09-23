@@ -7,6 +7,15 @@
     "hn_days": 30,
     "hn_limit": 10
   },
+  "show_hn": {
+    "days": 7,
+    "limit": 40,
+    "min_points": 3
+  },
+  "producthunt": {
+    "days": 7,
+    "limit": 50
+  },
   "categories": {
     "AI Agent": {
       "github": "\"ai agent\" in:name,description",

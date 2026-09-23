@@ -6,12 +6,40 @@
 
 ## 数据源
 
-| 源 | 用途 | 需要 token |
+| 源 | 回答什么问题 | 需要 token |
 |---|---|---|
-| GitHub Search API | 开源项目的 star / 活跃度 | 可选（有 token 限额高 3 倍） |
+| GitHub Search API | 哪个品类在涨？ | 可选（有 token 限额高 3 倍） |
+| Product Hunt | 闭源新品在冒什么？（GitHub 看不到） | **需要**，免费 |
+| Show HN | 谁在发布新工具？ | 不需要 |
 | Hacker News (Algolia) | 讨论热度，早期声量 | 不需要 |
 
 都是官方免费接口，**没有爬虫**，不会因为对方改版而挂掉。
+
+四个源在报告里回答的是不同问题，不要只看一个：
+
+- **GitHub** 告诉你开发者社区在做什么 —— 但开源热度 ≠ 市场需求
+- **Show HN** 是「我做了个东西」的发布会，最直接的竞品雷达
+- **Product Hunt** 补上闭源 SaaS 的盲区，能看出一个品类的扩张速度
+- **HN 讨论** 通常领先于其他指标，是早期声量
+
+## 本地配置密钥
+
+密钥放项目根目录的 `.env` 文件里（已在 `.gitignore`，不会被提交）：
+
+```bash
+cp .env.example .env   # 或者直接手写一个
+# 然后编辑 .env，填进去
+```
+
+`collect.py` 启动时会自动读它。已存在的环境变量优先，所以 CI 里注入的
+secrets 永远盖过本地文件，不用改代码。
+
+**Product Hunt token 怎么拿**：登录 producthunt.com 后打开
+<https://api.producthunt.com/v2/oauth/applications> → Add application
+（名字和 redirect URL 随便填）→ 复制页面上的 **Developer Token**
+（不是 Client Secret，两个不一样）。
+
+没有 PH token 也能跑，那一段会自动跳过，不影响其他采集。
 
 ## 快速开始
 
@@ -19,9 +47,13 @@
 cd tool-radar
 
 python collect.py                 # 采集 + 出报告
-python collect.py --only "MCP"    # 只采名字含 "MCP" 的品类
+python collect.py --only "MCP"    # 调试：只采名字含 "MCP" 的品类
 python collect.py --report-only   # 不联网，用上次快照重出报告
 ```
+
+`--only` 是**只读调试模式**：它不写 `data/`、不写快照，报告也另存为
+`reports/日期.debug.md`。因为 `append_history` 是按日期整体替换的，
+用 `--only` 正式跑会把当天其他品类的数据一起抹掉 —— 所以干脆不让它写。
 
 有 GitHub token 的话（限额从 10 次/分 提到 30 次/分）：
 
@@ -59,6 +91,15 @@ reports/YYYY-MM-DD.md     人类可读的日报
     "hn_days": 30,
     "hn_limit": 10
   },
+  "show_hn": {
+    "days": 7,
+    "limit": 40,
+    "min_points": 3
+  },
+  "producthunt": {
+    "days": 7,
+    "limit": 50
+  },
   "categories": {
     "AI Agent": {
       "github": "\"ai agent\" in:name,description",
@@ -67,6 +108,8 @@ reports/YYYY-MM-DD.md     人类可读的日报
   }
 }
 ```
+
+`show_hn` 和 `producthunt` 是**全局源**，不按品类拆 —— 新品属于哪个赛道，看标题和 tagline 就知道了。
 
 | 字段 | 含义 |
 |---|---|

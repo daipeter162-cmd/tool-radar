@@ -92,6 +92,26 @@ def http_json(url, params=None, headers=None, retries=3):
     raise RuntimeError(f"请求失败: {url}") from last_err
 
 
+def load_dotenv():
+    """从项目根目录的 .env 读密钥（该文件已在 .gitignore 里）。
+
+    只做最简单的事：一行一个 KEY=VALUE，`#` 开头是注释。
+    已存在的环境变量优先，不会被 .env 覆盖 —— 这样 CI 里注入的
+    secrets 永远盖过本地文件。
+    """
+    path = ROOT / ".env"
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key, value = key.strip(), value.strip().strip("'\"")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
 def load_config():
     if not CONFIG_PATH.exists():
         sys.exit(f"找不到配置文件: {CONFIG_PATH}")
@@ -179,10 +199,137 @@ def collect_hn(spec, defaults):
     return rows
 
 
+def collect_showhn(spec):
+    """Show HN = 「我做了个东西」发布会。这是最直接的竞品雷达。
+
+    不按品类拆，全局抓一次 —— 新品出现在哪个赛道，看标题就知道了。
+    """
+    days = spec.get("days", 7)
+    limit = spec.get("limit", 40)
+    min_points = spec.get("min_points", 3)
+    since = int(time.time()) - days * 86400
+
+    data = http_json(HN_SEARCH, {
+        "tags": "show_hn",
+        "numericFilters": f"created_at_i>{since},points>{min_points}",
+        "hitsPerPage": limit,
+    })
+
+    rows = []
+    for hit in data.get("hits", []):
+        title = (hit.get("title") or "").strip()
+        if not title:
+            continue
+        rows.append({
+            "title": title,
+            "points": hit.get("points") or 0,
+            "comments": hit.get("num_comments") or 0,
+            "url": hit.get("url") or f"https://news.ycombinator.com/item?id={hit.get('objectID')}",
+            "hn_url": f"https://news.ycombinator.com/item?id={hit.get('objectID')}",
+            "date": (hit.get("created_at") or "")[:10],
+        })
+    rows.sort(key=lambda r: -r["points"])
+    return rows
+
+
+PH_GRAPHQL = "https://api.producthunt.com/v2/api/graphql"
+
+# 故意不用 postedAfter 参数：多依赖一个 schema 假设就多一个失败点。
+# 改成拉最新 N 条，再在本地按日期过滤。
+_PH_FIELDS = """
+        name
+        tagline
+        url
+        votesCount
+        commentsCount
+        createdAt"""
+
+_PH_TOPICS = """
+        topics(first: 5) {
+          edges { node { name } }
+        }"""
+
+
+def _ph_query(with_topics):
+    fields = _PH_FIELDS + (_PH_TOPICS if with_topics else "")
+    return (
+        "query RecentPosts($first: Int!) {"
+        "  posts(first: $first, order: NEWEST) {"
+        "    edges { node {" + fields + "} }"
+        "  }"
+        "}"
+    )
+
+
+def _ph_post(query, first, token):
+    body = json.dumps({"query": query, "variables": {"first": first}}).encode("utf-8")
+    req = urllib.request.Request(
+        PH_GRAPHQL,
+        data=body,
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
+            "User-Agent": "tool-radar",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+    if data.get("errors"):
+        raise RuntimeError(f"{str(data['errors'])[:250]}")
+    return data
+
+
+def collect_producthunt(spec, token):
+    """Product Hunt 新品。覆盖 GitHub 看不到的闭源 SaaS。
+
+    没有 token 就直接跳过，不报错 —— 本地没配 token 时不该拖垮整次采集。
+    """
+    if not token:
+        return []
+    days = spec.get("days", 7)
+    first = spec.get("limit", 50)
+
+    try:
+        data = _ph_post(_ph_query(True), first, token)
+    except Exception as e:  # noqa: BLE001
+        # topics 字段的 schema 假设最不牢靠，去掉再试一次，别为它丢掉整个源
+        log(f"    PH 带 topics 查询失败，改用精简查询重试: {e}")
+        data = _ph_post(_ph_query(False), first, token)
+
+    cutoff = (date.today() - timedelta(days=days)).isoformat()
+    rows = []
+    for edge in (data.get("data", {}).get("posts") or {}).get("edges", []):
+        node = edge.get("node") or {}
+        created = (node.get("createdAt") or "")[:10]
+        if created and created < cutoff:
+            continue
+        topics = [
+            e["node"]["name"]
+            for e in ((node.get("topics") or {}).get("edges") or [])
+            if e.get("node")
+        ]
+        rows.append({
+            "name": node.get("name") or "",
+            "tagline": (node.get("tagline") or "").replace("\n", " ").strip(),
+            "votes": node.get("votesCount") or 0,
+            "comments": node.get("commentsCount") or 0,
+            "date": created,
+            "url": node.get("url") or "",
+            "topics": ", ".join(topics),
+        })
+    rows.sort(key=lambda r: -r["votes"])
+    return rows
+
+
 # ---------------------------------------------------------------- 落盘
 
-def append_history(today, collected):
+def append_history(today, collected, extra):
     """把本次采集写入长表 CSV。
+
+    三个源共用一张表，靠 `source` 列区分（github / producthunt / showhn），
+    这样以后可以用一条查询同时看开源项目和闭源新品的走势。
 
     同一天重复跑会替换当天数据，而不是再追一份 —— 否则手动触发测试
     或者任务重跑都会在历史表里堆重复行。
@@ -194,15 +341,34 @@ def append_history(today, collected):
         with HISTORY_PATH.open(newline="", encoding="utf-8") as f:
             rows = [r for r in csv.DictReader(f) if r.get("date") != today]
 
+    def blank(**kw):
+        row = {f: "" for f in HISTORY_FIELDS}
+        row.update(date=today, **kw)
+        return row
+
     for category, payload in collected.items():
         for row in payload["github"]:
-            rows.append({
-                "date": today, "category": category, "source": "github",
-                "name": row["name"], "stars": row["stars"], "forks": row["forks"],
-                "open_issues": row["open_issues"], "pushed_at": row["pushed_at"],
-                "created_at": row["created_at"], "url": row["url"],
-                "description": row["description"],
-            })
+            rows.append(blank(
+                category=category, source="github", name=row["name"],
+                stars=row["stars"], forks=row["forks"],
+                open_issues=row["open_issues"], pushed_at=row["pushed_at"],
+                created_at=row["created_at"], url=row["url"],
+                description=row["description"],
+            ))
+
+    for row in extra.get("producthunt", []):
+        rows.append(blank(
+            category=row["topics"], source="producthunt", name=row["name"],
+            stars=row["votes"], created_at=row["date"], url=row["url"],
+            description=row["tagline"],
+        ))
+
+    for row in extra.get("show_hn", []):
+        rows.append(blank(
+            source="showhn", name=row["title"], stars=row["points"],
+            created_at=row["date"], url=row["url"],
+            description=row["hn_url"],
+        ))
 
     with HISTORY_PATH.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=HISTORY_FIELDS)
@@ -220,7 +386,7 @@ def load_prev_snapshot():
         return {}
 
 
-def save_snapshot(today, collected):
+def save_snapshot(today, collected, extra):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     payload = {
         "date": today,
@@ -232,6 +398,10 @@ def save_snapshot(today, collected):
             cat: {r["title"]: {"points": r["points"]} for r in p["hn"]}
             for cat, p in collected.items()
         },
+        "showhn": {r["title"]: {"points": r["points"], "url": r["url"]}
+                   for r in extra.get("show_hn", [])},
+        "producthunt": {r["name"]: {"votes": r["votes"], "url": r["url"]}
+                        for r in extra.get("producthunt", [])},
     }
     with LATEST_PATH.open("w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
@@ -310,7 +480,7 @@ def compute_recent(collected, recent_days):
 
 
 def build_report(today, collected, prev, movers, newcomers, fresh_hn,
-                 recent, recent_days):
+                 recent, recent_days, extra):
     is_first = not prev
     lines = [f"# 海外工具品类热度 · {today}", ""]
 
@@ -377,6 +547,35 @@ def build_report(today, collected, prev, movers, newcomers, fresh_hn,
     else:
         lines.append(f"（{recent_days} 天内没有新建且 star 达标的新项目）\n")
 
+    # Product Hunt 新品 —— 闭源 SaaS 的入场信号，GitHub 看不到这块
+    ph = extra.get("producthunt", [])
+    lines += ["", f"## Product Hunt 新品（近 {extra.get('ph_days', 7)} 天）", ""]
+    if ph:
+        known_ph = (prev or {}).get("producthunt", {})
+        listed = sorted(ph, key=lambda p: (p["name"] in known_ph, -p["votes"]))
+        lines.append(md_table(
+            ["产品", "票数", "评论", "发布", "话题", "一句话"],
+            [[("🆕 " if p["name"] not in known_ph else "") + f"[{p['name']}]({p['url']})",
+              p["votes"], p["comments"], p["date"],
+              cut(p["topics"], 18), cut(p["tagline"], 55)] for p in listed[:25]],
+        ))
+    else:
+        lines.append("（没有数据 —— 检查 PH_API_TOKEN 是否配好）\n")
+
+    # Show HN —— 「我做了个东西」发布会
+    show = extra.get("show_hn", [])
+    lines += ["", f"## Show HN（近 {extra.get('show_hn_days', 7)} 天）", ""]
+    if show:
+        known_show = (prev or {}).get("showhn", {})
+        listed = sorted(show, key=lambda h: (h["title"] in known_show, -h["points"]))
+        lines.append(md_table(
+            ["标题", "点数", "评论", "发布"],
+            [[("🆕 " if h["title"] not in known_show else "") + f"[{cut(h['title'], 65)}]({h['url']})",
+              h["points"], h["comments"], h["date"]] for h in listed[:25]],
+        ))
+    else:
+        lines.append("（无）\n")
+
     # HN 讨论
     lines += ["", "## Hacker News 新讨论", ""]
     if fresh_hn:
@@ -423,6 +622,13 @@ def main():
                         help="只采集名字里包含这些字串的品类")
     args = parser.parse_args()
 
+    # --only 是调试用的：只采部分品类。此时**不写任何持久化数据** ——
+    # 因为 append_history 是按日期整体替换的，用 --only 跑会把当天
+    # 其他品类的数据一起抹掉，报告也会被残缺版本覆盖。
+    debug = bool(args.only)
+
+    load_dotenv()
+
     config = load_config()
     defaults = config["defaults"]
     categories = config["categories"]
@@ -437,8 +643,16 @@ def main():
         categories = picked
 
     token = os.environ.get("GITHUB_TOKEN", "").strip()
+    ph_token = os.environ.get("PH_API_TOKEN", "").strip()
     today = date.today().isoformat()
     prev = load_prev_snapshot()
+
+    extra = {
+        "show_hn": [],
+        "producthunt": [],
+        "show_hn_days": config.get("show_hn", {}).get("days", 7),
+        "ph_days": config.get("producthunt", {}).get("days", 7),
+    }
 
     if args.report_only:
         if not prev:
@@ -460,8 +674,9 @@ def main():
         movers, newcomers, fresh_hn = [], [], []
     else:
         collected = {}
-        log(f"[采集] {today} · {len(categories)} 个品类"
-            f" · GitHub token: {'有' if token else '无（限额较低）'}")
+        log(f"[采集] {today} · {len(categories)} 个品类")
+        log(f"       GitHub token: {'有' if token else '无（限额较低）'}"
+            f" · Product Hunt token: {'有' if ph_token else '无（跳过 PH）'}")
 
         for i, (name, spec) in enumerate(categories.items(), 1):
             log(f"  ({i}/{len(categories)}) {name}")
@@ -479,17 +694,33 @@ def main():
             collected[name] = {"github": github_rows, "hn": hn_rows}
             time.sleep(2)  # 对搜索接口客气一点
 
-        append_history(today, collected)
+        # 两个全局源，不按品类拆
+        global_sources = (
+            ("show_hn", "Show HN",
+             lambda: collect_showhn(config.get("show_hn", {}))),
+            ("producthunt", "Product Hunt",
+             lambda: collect_producthunt(config.get("producthunt", {}), ph_token)),
+        )
+        for key, label, fetch in global_sources:
+            try:
+                extra[key] = fetch()
+                log(f"  {label}: {len(extra[key])} 条")
+            except Exception as e:  # noqa: BLE001 — 源挂了不该拖垮整次采集
+                log(f"  ! {label} 失败: {e}")
+
         movers, newcomers = compute_movers(prev, collected)
         fresh_hn = compute_new_discussions(prev, collected)
-        save_snapshot(today, collected)
+        if not debug:
+            append_history(today, collected, extra)
+            save_snapshot(today, collected, extra)
 
     recent_days = defaults["recent_days"]
     recent = compute_recent(collected, recent_days)
     report = build_report(today, collected, prev if not args.report_only else None,
-                          movers, newcomers, fresh_hn, recent, recent_days)
+                          movers, newcomers, fresh_hn, recent, recent_days,
+                          extra if not args.report_only else {})
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
-    report_path = REPORT_DIR / f"{today}.md"
+    report_path = REPORT_DIR / f"{today}{'.debug' if debug else ''}.md"
     report_path.write_text(report, encoding="utf-8")
 
     total = sum(len(p["github"]) for p in collected.values())
@@ -503,6 +734,14 @@ def main():
     if recent:
         log(f"[近期新建] {len(recent)} 个，最新: "
             + ", ".join(f"{r['name']}({r['created_at']})" for r in recent[:3]))
+    if extra["producthunt"]:
+        log(f"[PH 新品] {len(extra['producthunt'])} 个，最热: "
+            + ", ".join(f"{p['name']}({p['votes']}票)"
+                        for p in extra["producthunt"][:3]))
+    if extra["show_hn"]:
+        log(f"[Show HN] {len(extra['show_hn'])} 个，最热: "
+            + ", ".join(f"{h['title'][:40]}({h['points']}点)"
+                        for h in extra["show_hn"][:3]))
 
 
 if __name__ == "__main__":

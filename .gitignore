@@ -15,5 +15,8 @@ venv/
 *.swp
 .DS_Store
 
+# --only 调试模式的产物，不入库
+reports/*.debug.md
+
 # 注意：data/ 和 reports/ 是故意要提交的。
 # 定时任务每天会把采集结果 commit 回仓库，这个仓库本身就是数据库。

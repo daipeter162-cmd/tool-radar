@@ -29,6 +29,9 @@ jobs:
           # GitHub Actions 自带这个 token，自动获得认证后的限额
           # （搜索接口 30 次/分，未认证只有 10 次/分）
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 需要在仓库 Settings → Secrets and variables → Actions 里配这个 secret。
+          # 没配的话 Product Hunt 那一段会自动跳过，不影响其他采集。
+          PH_API_TOKEN: ${{ secrets.PH_API_TOKEN }}
         run: python collect.py
 
       - name: 提交结果
