@@ -24,6 +24,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: 安装依赖
+        run: |
+          # 先装字体再装 matplotlib：matplotlib 首次 import 时扫描系统字体建缓存，
+          # 顺序反了中文会显示成方块
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet matplotlib
+
       - name: 采集
         env:
           # GitHub Actions 自带这个 token，自动获得认证后的限额
@@ -33,6 +42,11 @@ jobs:
           # 没配的话 Product Hunt 那一段会自动跳过，不影响其他采集。
           PH_API_TOKEN: ${{ secrets.PH_API_TOKEN }}
         run: python collect.py
+
+      - name: 画趋势图
+        # 画图挂了不该拖累已经采到的数据 —— 数据比图重要
+        continue-on-error: true
+        run: python chart.py
 
       - name: 提交结果
         run: |

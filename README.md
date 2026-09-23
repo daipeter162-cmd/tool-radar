@@ -4,6 +4,14 @@
 
 **核心思路：单次排名没有意义，变化量才是信号。** 所以它每次都存快照，和上一次对比，输出「谁在涨、谁是新来的」。
 
+![趋势图](reports/trend.png)
+
+> 上图由 `chart.py` 每天自动重画。**数据攒到 2 天以上会自动从柱状图切换成小倍数折线趋势图。**
+>
+> 为什么用一格一个品类，而不是一张图 11 条彩线：分类色最多只能安全地用 8 个，
+> 第 9 个开始颜色在色觉障碍下就分不开了。分面之后每格只有一条线，不需要图例，也不会混淆。
+> 图上的原始数值同时存一份在 `reports/trend.csv`。
+
 ## 数据源
 
 | 源 | 回答什么问题 | 需要 token |
@@ -49,7 +57,16 @@ cd tool-radar
 python collect.py                 # 采集 + 出报告
 python collect.py --only "MCP"    # 调试：只采名字含 "MCP" 的品类
 python collect.py --report-only   # 不联网，用上次快照重出报告
+python chart.py                   # 从历史重画趋势图
 ```
+
+画图依赖 matplotlib，是**可选**的：
+
+```bash
+pip install matplotlib
+```
+
+没装也能正常采集 —— `chart.py` 会提示一句然后退出，不影响其他流程。
 
 `--only` 是**只读调试模式**：它不写 `data/`、不写快照，报告也另存为
 `reports/日期.debug.md`。因为 `append_history` 是按日期整体替换的，
@@ -67,6 +84,8 @@ GITHUB_TOKEN=ghp_xxx python collect.py
 data/history.csv          长表历史，每行 = 某天某品类某项目，以后可以随便透视
 data/latest.json          最近一次快照，用于做 diff
 reports/YYYY-MM-DD.md     人类可读的日报
+reports/trend.png         趋势图，README 里引用
+reports/trend.csv         趋势图的数值版（图看不出来时查这个）
 ```
 
 **报告怎么读，按价值排序：**
