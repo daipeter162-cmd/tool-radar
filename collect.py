@@ -251,32 +251,59 @@ _PH_TOPICS = """
 
 
 def _ph_query(with_topics):
+    """按票数排序取帖。
+
+    实测必须用 VOTES，不能用 NEWEST 或 RANKING —— 后两者返回的都是
+    刚发布几小时的帖子，票数永远是 0，等于没有热度信号。
+    VOTES 返回的是近期票数最高的一批（实测跨约三周），正是我们要的。
+
+    另外实测 first 超过 20 无效，服务端就返回 20 条，所以靠单次翻页
+    拿不到更多；靠每天跑一次 + history.csv 累积。
+    """
     fields = _PH_FIELDS + (_PH_TOPICS if with_topics else "")
     return (
-        "query RecentPosts($first: Int!) {"
-        "  posts(first: $first, order: NEWEST) {"
+        "query TopPosts($first: Int!) {"
+        "  posts(first: $first, order: VOTES) {"
         "    edges { node {" + fields + "} }"
         "  }"
         "}"
     )
 
 
-def _ph_post(query, first, token):
+def _ph_post(query, first, token, retries=4):
+    """POST GraphQL。
+
+    必须重试：实测从国内网络访问 PH 的 API，约 1/3 的请求会在 TLS 层
+    被中断（SSL: UNEXPECTED_EOF_WHILE_READING），但重试就能过。
+    """
     body = json.dumps({"query": query, "variables": {"first": first}}).encode("utf-8")
-    req = urllib.request.Request(
-        PH_GRAPHQL,
-        data=body,
-        headers={
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": f"Bearer {token}",
-            "User-Agent": "tool-radar",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-    if data.get("errors"):
+    data = None
+    for attempt in range(retries):
+        req = urllib.request.Request(
+            PH_GRAPHQL,
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": f"Bearer {token}",
+                "User-Agent": "tool-radar",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            break
+        except Exception as e:  # noqa: BLE001 — 连接抖动，重试
+            if attempt == retries - 1:
+                raise
+            wait = 2 * (attempt + 1)
+            log(f"    PH 连接中断（{type(e).__name__}），{wait}s 后重试"
+                f"（第 {attempt + 2}/{retries} 次）")
+            time.sleep(wait)
+
+    # GraphQL 层面的错误（schema 写错等），重试没用，直接抛出
+    if data and data.get("errors"):
         raise RuntimeError(f"{str(data['errors'])[:250]}")
     return data
 
@@ -293,9 +320,10 @@ def collect_producthunt(spec, token):
 
     try:
         data = _ph_post(_ph_query(True), first, token)
-    except Exception as e:  # noqa: BLE001
-        # topics 字段的 schema 假设最不牢靠，去掉再试一次，别为它丢掉整个源
-        log(f"    PH 带 topics 查询失败，改用精简查询重试: {e}")
+    except RuntimeError as e:
+        # 只有 GraphQL schema 层面的错误才值得去掉 topics 重试。
+        # 网络错误已在 _ph_post 内部重试过，换个查询串也救不回来。
+        log(f"    PH 带 topics 查询被拒，改用精简查询: {e}")
         data = _ph_post(_ph_query(False), first, token)
 
     cutoff = (date.today() - timedelta(days=days)).isoformat()
@@ -316,7 +344,8 @@ def collect_producthunt(spec, token):
             "votes": node.get("votesCount") or 0,
             "comments": node.get("commentsCount") or 0,
             "date": created,
-            "url": node.get("url") or "",
+            # PH 返回的 url 带一长串 utm 追踪参数，砍掉，否则表格没法看
+            "url": (node.get("url") or "").split("?")[0],
             "topics": ", ".join(topics),
         })
     rows.sort(key=lambda r: -r["votes"])
@@ -549,7 +578,7 @@ def build_report(today, collected, prev, movers, newcomers, fresh_hn,
 
     # Product Hunt 新品 —— 闭源 SaaS 的入场信号，GitHub 看不到这块
     ph = extra.get("producthunt", [])
-    lines += ["", f"## Product Hunt 新品（近 {extra.get('ph_days', 7)} 天）", ""]
+    lines += ["", f"## Product Hunt 高票榜（近 {extra.get('ph_days', 30)} 天，按票数）", ""]
     if ph:
         known_ph = (prev or {}).get("producthunt", {})
         listed = sorted(ph, key=lambda p: (p["name"] in known_ph, -p["votes"]))

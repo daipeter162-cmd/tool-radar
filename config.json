@@ -13,8 +13,8 @@
     "min_points": 3
   },
   "producthunt": {
-    "days": 7,
-    "limit": 50
+    "days": 30,
+    "limit": 20
   },
   "categories": {
     "AI Agent": {
