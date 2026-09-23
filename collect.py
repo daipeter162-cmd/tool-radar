@@ -182,22 +182,32 @@ def collect_hn(spec, defaults):
 # ---------------------------------------------------------------- 落盘
 
 def append_history(today, collected):
-    """把本次采集追加到长表 CSV。"""
+    """把本次采集写入长表 CSV。
+
+    同一天重复跑会替换当天数据，而不是再追一份 —— 否则手动触发测试
+    或者任务重跑都会在历史表里堆重复行。
+    """
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    is_new = not HISTORY_PATH.exists()
-    with HISTORY_PATH.open("a", newline="", encoding="utf-8") as f:
+
+    rows = []
+    if HISTORY_PATH.exists():
+        with HISTORY_PATH.open(newline="", encoding="utf-8") as f:
+            rows = [r for r in csv.DictReader(f) if r.get("date") != today]
+
+    for category, payload in collected.items():
+        for row in payload["github"]:
+            rows.append({
+                "date": today, "category": category, "source": "github",
+                "name": row["name"], "stars": row["stars"], "forks": row["forks"],
+                "open_issues": row["open_issues"], "pushed_at": row["pushed_at"],
+                "created_at": row["created_at"], "url": row["url"],
+                "description": row["description"],
+            })
+
+    with HISTORY_PATH.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=HISTORY_FIELDS)
-        if is_new:
-            writer.writeheader()
-        for category, payload in collected.items():
-            for row in payload["github"]:
-                writer.writerow({
-                    "date": today, "category": category, "source": "github",
-                    "name": row["name"], "stars": row["stars"], "forks": row["forks"],
-                    "open_issues": row["open_issues"], "pushed_at": row["pushed_at"],
-                    "created_at": row["created_at"], "url": row["url"],
-                    "description": row["description"],
-                })
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def load_prev_snapshot():
