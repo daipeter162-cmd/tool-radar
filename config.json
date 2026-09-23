@@ -18,46 +18,57 @@
   },
   "categories": {
     "AI Agent": {
+      "en": "AI Agent",
       "github": "\"ai agent\" in:name,description",
       "hn": "AI agent"
     },
     "LLM 应用": {
+      "en": "LLM Apps",
       "github": "llm in:name",
       "hn": "LLM app"
     },
     "RAG 检索增强": {
+      "en": "RAG / Retrieval",
       "github": "\"retrieval augmented generation\" in:name,description",
       "hn": "RAG retrieval"
     },
     "AI 编程": {
+      "en": "AI Coding",
       "github": "\"ai coding\" in:name,description",
       "hn": "AI coding"
     },
     "文生图": {
+      "en": "Text to Image",
       "github": "\"text to image\" in:name,description",
       "hn": "text to image"
     },
     "文生视频": {
+      "en": "Text to Video",
       "github": "\"text to video\" in:name,description",
       "hn": "text to video"
     },
     "语音合成 TTS": {
+      "en": "Text to Speech",
       "github": "\"text to speech\" in:name,description",
       "hn": "text to speech"
     },
     "语音识别 STT": {
+      "en": "Speech to Text",
       "github": "\"speech to text\" in:name,description",
       "hn": "speech to text"
     },
     "向量数据库": {
+      "en": "Vector Databases",
       "github": "\"vector database\" in:name,description",
       "hn": "vector database"
     },
     "MCP 生态": {
+      "en": "MCP Ecosystem",
       "github": "\"model context protocol\" in:name,description",
       "hn": "Model Context Protocol"
     },
     "工作流自动化": {
+      "en": "Workflow Automation",
       "github": "\"workflow automation\" in:name,description",
       "hn": "workflow automation"
     }

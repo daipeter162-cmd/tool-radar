@@ -5,6 +5,9 @@ tool-radar 趋势图
 
 从 data/history.csv 读历史，画各品类每日新增 star 的趋势。
 
+同时出中英两个版本（README.md 是英文默认，引用英文图；README.zh-CN.md
+引用中文图）—— 两个 README 共用一个中文图是不对的。
+
 为什么用**小倍数图**（每格一个品类）而不是一张图 11 条彩线：
 分类色最多只能安全地用 8 个，第 9 个开始颜色在色觉障碍下就分不开了。
 与其硬凑颜色，不如分面 —— 每格只有一条线，不需要图例，也不会混淆。
@@ -13,7 +16,9 @@ tool-radar 趋势图
 只有一个点连不成趋势，画折线没有意义。
 
 用法：
-    python chart.py
+    python chart.py                # 中英两张都出
+    python chart.py --lang zh      # 只出中文
+    python chart.py --lang en      # 只出英文
 
 依赖 matplotlib（可选）：
     pip install matplotlib
@@ -21,11 +26,14 @@ tool-radar 趋势图
 没装 matplotlib 会直接提示并退出，不影响采集流程。
 
 产出：
-    reports/trend.png    趋势图，README 里引用
-    reports/trend.csv    图上的原始数值（表格版，无障碍要求）
+    reports/trend.zh.png   中文图
+    reports/trend.en.png   英文图
+    reports/trend.csv      图上的原始数值（表格版，无障碍要求）
 """
 
+import argparse
 import csv
+import json
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -37,8 +45,9 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent
 HISTORY_PATH = ROOT / "data" / "history.csv"
-OUT_PNG = ROOT / "reports" / "trend.png"
-OUT_CSV = ROOT / "reports" / "trend.csv"
+CONFIG_PATH = ROOT / "config.json"
+REPORT_DIR = ROOT / "reports"
+OUT_CSV = REPORT_DIR / "trend.csv"
 
 # 配色：单色方案，来自已验证的调色板（validate_palette.js 全项 PASS）
 SERIES = "#2a78d6"       # 分类槽位 1，蓝
@@ -48,11 +57,34 @@ INK_MUTED = "#898781"    # 轴标签
 GRID = "#e1e0d9"         # 网格发丝线（实线，不用虚线）
 BASELINE = "#c3c2b7"     # 基线
 
-# 能找到哪个用哪个；都找不到就退回默认，中文会显示成方块但不影响出图
+STRINGS = {
+    "zh": {
+        "trend_title": "各品类每日新增 star（只统计两天都在榜的项目）",
+        "scale_title": "各品类中位 star（{date}，仅 {n} 天数据，趋势图需积累 2 天以上）",
+        "no_data": "数据不足",
+    },
+    "en": {
+        "trend_title": "Daily new stars per category (projects present on both days only)",
+        "scale_title": "Median stars per category ({date} - only {n} day of data; trend needs 2+)",
+        "no_data": "no data",
+    },
+}
+
+# 中文字体候选。英文版不需要，matplotlib 自带 DejaVu Sans 就够。
 CJK_FONTS = [
     "Microsoft YaHei", "SimHei", "Noto Sans CJK SC", "Noto Sans CJK JP",
     "Source Han Sans CN", "WenQuanYi Zen Hei", "PingFang SC", "Arial Unicode MS",
 ]
+
+
+def load_names():
+    """读 config.json 里的英文品类名。没有 en 字段的退回中文名。"""
+    if not CONFIG_PATH.exists():
+        return {}
+    with CONFIG_PATH.open(encoding="utf-8") as f:
+        config = json.load(f)
+    return {cat: spec.get("en") or cat
+            for cat, spec in config.get("categories", {}).items()}
 
 
 def load_history():
@@ -96,8 +128,12 @@ def daily_gains(series):
     return gains, dates
 
 
-def setup_font(mpl):
-    """找一个能显示中文的字体。找不到返回 None（图仍然会出）。"""
+def setup_font(mpl, lang):
+    """中文需要专门找 CJK 字体；英文用 matplotlib 自带的就够。"""
+    if lang != "zh":
+        mpl.rcParams["axes.unicode_minus"] = False
+        return "DejaVu Sans (default)"
+
     from matplotlib import font_manager
     available = {f.name for f in font_manager.fontManager.ttflist}
     for name in CJK_FONTS:
@@ -123,8 +159,13 @@ def style_axes(ax, show_grid=True):
         ax.set_axisbelow(True)
 
 
-def draw_trend(mpl, plt, gains, dates):
+def label_for(cat, names, lang):
+    return names.get(cat, cat) if lang == "en" else cat
+
+
+def draw_trend(mpl, plt, gains, dates, names, lang):
     """主图：小倍数折线，每格一个品类。"""
+    S = STRINGS[lang]
     plot_days = dates[1:]  # 第一天没有对比基线
     cats = sorted({c for d in plot_days for c in gains[d]})
 
@@ -154,10 +195,11 @@ def draw_trend(mpl, plt, gains, dates):
                         textcoords="offset points", xytext=(6, 0),
                         va="center", fontsize=9, color=INK)
         else:
-            ax.text(0.5, 0.5, "数据不足", ha="center", va="center",
+            ax.text(0.5, 0.5, S["no_data"], ha="center", va="center",
                     transform=ax.transAxes, fontsize=9, color=INK_MUTED)
 
-        ax.set_title(cat, fontsize=10, color=INK, pad=6, loc="left")
+        ax.set_title(label_for(cat, names, lang), fontsize=10, color=INK,
+                     pad=6, loc="left")
         ax.set_ylim(0, y_max)
         style_axes(ax, show_grid=True)
 
@@ -168,35 +210,33 @@ def draw_trend(mpl, plt, gains, dates):
     for j in range(len(cats), len(axes)):
         axes[j].axis("off")
 
-    fig.suptitle("各品类每日新增 star（只统计两天都在榜的项目）",
-                 fontsize=13, color=INK, x=0.005, ha="left", y=0.995)
+    fig.suptitle(S["trend_title"], fontsize=13, color=INK, x=0.005, ha="left", y=0.995)
     fig.tight_layout(rect=(0, 0, 1, 0.98))
     return fig
 
 
-def draw_scale(mpl, plt, series):
+def draw_scale(mpl, plt, series, names, lang):
     """降级图：数据不足 2 天时，画当前各品类规模。"""
+    S = STRINGS[lang]
     latest = sorted(series)[-1]
     stats = []
     for cat, repos in series[latest].items():
         stars = sorted(repos.values())
         mid = stars[len(stars) // 2]
-        stats.append((cat, mid))
+        stats.append((label_for(cat, names, lang), mid))
     stats.sort(key=lambda s: s[1])
 
     fig, ax = plt.subplots(figsize=(9, 0.45 * len(stats) + 1.6), facecolor=SURFACE)
-    names = [s[0] for s in stats]
-    values = [s[1] for s in stats]
-    ax.barh(names, values, color=SERIES, height=0.62, zorder=3)
+    ax.barh([s[0] for s in stats], [s[1] for s in stats],
+            color=SERIES, height=0.62, zorder=3)
 
-    for i, v in enumerate(values):
+    for i, (_, v) in enumerate(stats):
         ax.annotate(f"{v:,}", (v, i), textcoords="offset points", xytext=(6, 0),
                     va="center", fontsize=9, color=INK)
 
-    ax.set_title(f"各品类中位 star（{latest}，仅 1 天数据，"
-                 f"趋势图需积累 2 天以上）",
+    ax.set_title(S["scale_title"].format(date=latest, n=1),
                  fontsize=12, color=INK, pad=12, loc="left")
-    ax.set_xlim(0, max(values) * 1.18)
+    ax.set_xlim(0, max(s[1] for s in stats) * 1.18)
     style_axes(ax, show_grid=True)
     ax.grid(axis="y", visible=False)  # 横向条不需要横网格
     fig.tight_layout()
@@ -216,6 +256,11 @@ def write_table(gains, dates):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="生成趋势图")
+    parser.add_argument("--lang", choices=["zh", "en", "both"], default="both",
+                        help="出哪个语言版本（默认两个都出）")
+    args = parser.parse_args()
+
     try:
         import matplotlib
         matplotlib.use("Agg")  # 无界面环境（CI）必须
@@ -224,24 +269,31 @@ def main():
         print("没装 matplotlib，跳过画图。需要的话：pip install matplotlib")
         return 0
 
-    font = setup_font(matplotlib)
-    print(f"字体: {font or '未找到中文字体（中文可能显示为方块）'}")
-
     series = load_history()
     gains, dates = daily_gains(series)
-    OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
+    names = load_names()
+    langs = ["zh", "en"] if args.lang == "both" else [args.lang]
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+    for lang in langs:
+        font = setup_font(matplotlib, lang)
+        if lang == "zh":
+            print(f"中文字体: {font or '未找到（中文可能显示为方块）'}")
+
+        if len(dates) >= 2:
+            fig = draw_trend(matplotlib, plt, gains, dates, names, lang)
+        else:
+            fig = draw_scale(matplotlib, plt, series, names, lang)
+
+        out = REPORT_DIR / f"trend.{lang}.png"
+        fig.savefig(out, dpi=140, facecolor=SURFACE, bbox_inches="tight")
+        plt.close(fig)
+        print(f"已保存: {out}")
 
     if len(dates) >= 2:
-        print(f"数据跨度 {len(dates)} 天，画趋势图")
-        fig = draw_trend(matplotlib, plt, gains, dates)
         write_table(gains, dates)
     else:
-        print(f"只有 {len(dates)} 天数据，趋势图需要 ≥2 天。改画当前规模。")
-        fig = draw_scale(matplotlib, plt, series)
-
-    fig.savefig(OUT_PNG, dpi=140, facecolor=SURFACE, bbox_inches="tight")
-    plt.close(fig)
-    print(f"已保存: {OUT_PNG}")
+        print(f"只有 {len(dates)} 天数据，趋势图需要 ≥2 天，本次画的是当前规模。")
     return 0
 
 

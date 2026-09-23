@@ -1,111 +1,119 @@
 # tool-radar
 
-**简体中文** · [English](README.en.md)
+[简体中文](README.zh-CN.md) · **English**
 
-海外工具品类热度采集。每天自动跑，把变化量攒下来。
+Tracks category-level momentum in overseas tools. Runs daily and accumulates the deltas.
 
-**核心思路：单次排名没有意义，变化量才是信号。** 所以它每次都存快照，和上一次对比，输出「谁在涨、谁是新来的」。
+**The core idea: a single ranking means nothing — the change is the signal.** So it snapshots
+every run, diffs against the previous one, and reports what's climbing and what's new.
 
-![趋势图](reports/trend.png)
+![Trend chart](reports/trend.en.png)
 
-> 上图由 `chart.py` 每天自动重画。**数据攒到 2 天以上会自动从柱状图切换成小倍数折线趋势图。**
+> The chart above is redrawn daily by `chart.py`. **Once you have 2+ days of data it
+> automatically switches from a bar chart to a small-multiples line chart.**
 >
-> 为什么用一格一个品类，而不是一张图 11 条彩线：分类色最多只能安全地用 8 个，
-> 第 9 个开始颜色在色觉障碍下就分不开了。分面之后每格只有一条线，不需要图例，也不会混淆。
-> 图上的原始数值同时存一份在 `reports/trend.csv`。
+> Why one panel per category instead of 11 colored lines on one chart: a categorical
+> palette can only safely carry 8 hues — from the 9th onward, colors become
+> indistinguishable under color-vision deficiency. Faceting gives each panel a single
+> line, so no legend is needed and nothing gets confused.
+> The underlying numbers are also saved to `reports/trend.csv`.
 
-## 数据源
+## Data sources
 
-| 源 | 回答什么问题 | 需要 token |
+| Source | Question it answers | Token |
 |---|---|---|
-| GitHub Search API | 哪个品类在涨？ | 可选（有 token 限额高 3 倍） |
-| Product Hunt | 闭源新品在冒什么？（GitHub 看不到） | **需要**，免费 |
-| Show HN | 谁在发布新工具？ | 不需要 |
-| Hacker News (Algolia) | 讨论热度，早期声量 | 不需要 |
+| GitHub Search API | Which category is climbing? | Optional (raises rate limit 3x) |
+| Product Hunt | What closed-source launches are appearing? (invisible on GitHub) | **Required**, free |
+| Show HN | Who's shipping new tools? | No |
+| Hacker News (Algolia) | Discussion volume — early signal | No |
 
-都是官方免费接口，**没有爬虫**，不会因为对方改版而挂掉。
+All are official free APIs. **No scrapers**, so nothing breaks when a site redesigns.
 
-四个源在报告里回答的是不同问题，不要只看一个：
+Each source answers a different question — don't read just one:
 
-- **GitHub** 告诉你开发者社区在做什么 —— 但开源热度 ≠ 市场需求
-- **Show HN** 是「我做了个东西」的发布会，最直接的竞品雷达
-- **Product Hunt** 补上闭源 SaaS 的盲区，能看出一个品类的扩张速度
-- **HN 讨论** 通常领先于其他指标，是早期声量
+- **GitHub** shows what the developer community is building — but open-source heat ≠ market demand
+- **Show HN** is a "I built a thing" launch feed — the most direct competitor radar
+- **Product Hunt** covers the closed-source SaaS blind spot and reveals how fast a category is expanding
+- **HN discussion** tends to lead the other metrics — it's early signal
 
-## 本地配置密钥
+## Local credentials
 
-密钥放项目根目录的 `.env` 文件里（已在 `.gitignore`，不会被提交）：
+Put credentials in a `.env` file at the project root (already in `.gitignore`, never committed):
 
 ```bash
-cp .env.example .env   # 或者直接手写一个
-# 然后编辑 .env，填进去
+cp .env.example .env   # or just write one by hand
+# then edit .env and fill it in
 ```
 
-`collect.py` 启动时会自动读它。已存在的环境变量优先，所以 CI 里注入的
-secrets 永远盖过本地文件，不用改代码。
+`collect.py` reads it automatically on startup. Existing environment variables take
+precedence, so secrets injected by CI always override the local file without any code change.
 
-**Product Hunt token 怎么拿**：登录 producthunt.com 后打开
+**Getting a Product Hunt token**: sign in at producthunt.com, open
 <https://api.producthunt.com/v2/oauth/applications> → Add application
-（名字和 redirect URL 随便填）→ 复制页面上的 **Developer Token**
-（不是 Client Secret，两个不一样）。
+(name and redirect URL can be anything) → copy the **Developer Token**
+(not the Client Secret — they're different).
 
-没有 PH token 也能跑，那一段会自动跳过，不影响其他采集。
+It runs fine without a PH token; that source just gets skipped without affecting the rest.
 
-## 快速开始
+## Quick start
 
 ```bash
 cd tool-radar
 
-python collect.py                 # 采集 + 出报告
-python collect.py --only "MCP"    # 调试：只采名字含 "MCP" 的品类
-python collect.py --report-only   # 不联网，用上次快照重出报告
-python chart.py                   # 从历史重画趋势图
+python collect.py                 # collect + generate report
+python collect.py --only "MCP"    # debug: only categories matching "MCP"
+python collect.py --report-only   # offline: regenerate report from last snapshot
+python chart.py                   # redraw both charts (Chinese + English)
+python chart.py --lang en         # English chart only
 ```
 
-画图依赖 matplotlib，是**可选**的：
+Charting needs matplotlib, which is **optional**:
 
 ```bash
 pip install matplotlib
 ```
 
-没装也能正常采集 —— `chart.py` 会提示一句然后退出，不影响其他流程。
+Collection works fine without it — `chart.py` prints a notice and exits.
 
-`--only` 是**只读调试模式**：它不写 `data/`、不写快照，报告也另存为
-`reports/日期.debug.md`。因为 `append_history` 是按日期整体替换的，
-用 `--only` 正式跑会把当天其他品类的数据一起抹掉 —— 所以干脆不让它写。
+`--only` is a **read-only debug mode**: it writes nothing to `data/`, doesn't touch the
+snapshot, and saves its report as `reports/DATE.debug.md`. Because `append_history`
+replaces by date wholesale, running `--only` for real would wipe the other categories'
+data for that day — so it simply isn't allowed to write.
 
-有 GitHub token 的话（限额从 10 次/分 提到 30 次/分）：
+With a GitHub token (raises the search rate limit from 10/min to 30/min):
 
 ```bash
 GITHUB_TOKEN=ghp_xxx python collect.py
 ```
 
-## 输出
+## Output
 
 ```
-data/history.csv          长表历史，每行 = 某天某品类某项目，以后可以随便透视
-data/latest.json          最近一次快照，用于做 diff
-reports/YYYY-MM-DD.md     人类可读的日报
-reports/trend.png         趋势图，README 里引用
-reports/trend.csv         趋势图的数值版（图看不出来时查这个）
+data/history.csv          Long-format history: one row per day/category/project. Pivot it however you like.
+data/latest.json          Last snapshot, used for diffing
+reports/YYYY-MM-DD.md     Human-readable daily report
+reports/trend.en.png      Trend chart (English), referenced by this README
+reports/trend.zh.png      Trend chart (Chinese), referenced by README.zh-CN.md
+reports/trend.csv         The chart's numbers in table form
 ```
 
-`history.csv` 用 `source` 列区分来源（`github` / `producthunt` / `showhn`），
-三个源共用一张表，可以用一条查询同时看开源项目和闭源新品的走势。
+`history.csv` uses a `source` column (`github` / `producthunt` / `showhn`) so all three
+sources share one table — a single query can cover both open-source projects and
+closed-source launches.
 
-**报告怎么读，按价值排序：**
+**How to read the report, in order of value:**
 
-1. **star 增速榜** — 对比上次涨了多少。这是最核心的信号，涨得快 = 需求在起
-2. **近期新建** — 180 天内创建的项目。新玩家进场的地方，机会最多
-3. **新进入榜** — 上次没出现、这次冒出来的
-4. **Product Hunt 高票榜** — 近 30 天票数最高的闭源新品，看需求端
-5. **Show HN** — 近 7 天的新工具发布，最直接的竞品雷达
-6. **Hacker News 新讨论** — 早期声量，通常领先于其他数据
-7. **各品类明细** — 完整列表，用来查
+1. **Star movers** — change since last run. The most important signal: fast growth = rising demand
+2. **Recently created** — projects created within 180 days. Where new entrants show up, most opportunity
+3. **New entrants** — absent last time, present now
+4. **Product Hunt top-voted** — highest-voted closed-source launches of the last 30 days (demand side)
+5. **Show HN** — new tool launches from the past 7 days. The most direct competitor radar
+6. **New Hacker News discussions** — early signal, usually ahead of the other data
+7. **Per-category detail** — the full lists, for lookup
 
-## 配置
+## Configuration
 
-全在 `config.json`，改完直接生效，不用动代码。
+Everything lives in `config.json`. Edit it and it takes effect immediately — no code changes.
 
 ```json
 {
@@ -127,139 +135,166 @@ reports/trend.csv         趋势图的数值版（图看不出来时查这个）
     "limit": 20
   },
   "categories": {
-    "AI Agent": {
-      "github": "\"ai agent\" in:name,description",
-      "hn": "AI agent"
+    "文生图": {
+      "en": "Text to Image",
+      "github": "\"text to image\" in:name,description",
+      "hn": "text to image"
     }
   }
 }
 ```
 
-`show_hn` 和 `producthunt` 是**全局源**，不按品类拆 —— 新品属于哪个赛道，看标题和 tagline 就知道了。
+Category keys are in Chinese — that's the language the daily report is written in.
+`en` supplies the English label used by the English chart; if you omit it, the Chinese
+name is used there instead.
 
-| 字段 | 含义 |
+`show_hn` and `producthunt` are **global sources**, not split by category — which track a
+new product belongs to is obvious from its title and tagline.
+
+| Field | Meaning |
 |---|---|
-| `github` | GitHub 搜索语法，直接拼进 API 的 `q` |
-| `hn` | Hacker News 关键词，留空则跳过 HN |
-| `min_stars` | star 下限，过滤掉噪声项目 |
-| `limit` | 每个品类取多少条 |
-| `active_within_days` | 只要最近 N 天有提交的（0 = 不限） |
-| `recent_days` | 「近期新建」板块的时间窗口 |
+| `en` | English label for the chart. Falls back to the Chinese key if absent |
+| `github` | GitHub search syntax, spliced straight into the API's `q` |
+| `hn` | Hacker News keyword; leave empty to skip HN for this category |
+| `min_stars` | Star floor, filters out noise |
+| `limit` | How many entries per category |
+| `active_within_days` | Only projects pushed within N days (0 = no limit) |
+| `recent_days` | Time window for the "recently created" section |
 
-### 加一个品类
+### Adding a category
 
-在 `categories` 里加一条就行：
+Add one entry to `categories`:
 
 ```json
-"AI 教育": {
+"AI Education": {
   "github": "\"ai tutor\" in:name,description",
   "hn": "AI tutor"
 }
 ```
 
-## 踩过的坑
+## Gotchas
 
-这一节记录的都是实测出来的结论，改配置前建议先看。
+Everything here is an empirical finding. Worth reading before changing the config.
 
-### 别用 `topic:` 查询
+### Don't use `topic:` queries
 
-GitHub topic 是用户自己打的标签，热门项目会把所有热门 topic 都打一遍蹭曝光。实测：
-
-```
-topic:vector-database  → 返回 anything-llm、llama_index（不是向量数据库）
-topic:mcp              → 返回 n8n、JavaGuide、dify（只是打了 tag）
-```
-
-结果就是每个品类的榜单都被同样几个巨头占据，信号全被稀释。
-
-**用短语搜索，干净得多：**
+GitHub topics are user-applied tags, and popular projects tag themselves with every
+trending topic for exposure. Measured:
 
 ```
-"model context protocol" in:name,description   → 全是真 MCP 项目
-"vector database" in:name,description          → milvus / qdrant / weaviate
+topic:vector-database  →  anything-llm, llama_index   (not vector databases)
+topic:mcp              →  n8n, JavaGuide, dify        (just tagged)
 ```
 
-可用限定符：`in:name`、`in:description`、`in:readme`、`in:topics`
-可用过滤：`stars:>100`、`pushed:>2026-01-01`、`language:python`
+The result: every category's leaderboard is occupied by the same handful of giants, and
+the signal is completely diluted.
 
-### Product Hunt 必须按票数排，不能按时间
+**Phrase search is far cleaner:**
 
-`order: NEWEST` / `RANKING` 返回的都是刚发布几小时的帖子，**票数恒为 0**，等于没有热度信号。
-必须用 `order: VOTES`，它返回近期票数最高的一批（实测跨约三周）。
+```
+"model context protocol" in:name,description   →  all genuine MCP projects
+"vector database" in:name,description          →  milvus / qdrant / weaviate
+```
 
-另外实测 `first` 超过 20 无效，服务端就返回 20 条，所以靠单次翻页拿不到更多 —— 靠每天跑一次累积。
+Qualifiers: `in:name`, `in:description`, `in:readme`, `in:topics`
+Filters: `stars:>100`, `pushed:>2026-01-01`, `language:python`
 
-### 从国内访问 PH 的 API 会间歇性断连
+### Product Hunt must be sorted by votes, not time
 
-实测约 **1/3 的请求**会在 TLS 层被中断（`SSL: UNEXPECTED_EOF_WHILE_READING`），但重试就能过。
-`_ph_post` 因此带了 4 次退避重试。注意这不是 GFW 拦截 —— 同一网络下 curl 是通的。
+`order: NEWEST` and `RANKING` both return posts published hours ago whose **vote count is
+always 0** — no signal at all. You must use `order: VOTES`, which returns the
+highest-voted recent posts (measured: spanning roughly three weeks).
 
-## 部署到 GitHub Actions（推荐）
+Also measured: `first` above 20 has no effect — the server returns 20 anyway. So you
+can't get more per run; you accumulate by running daily.
 
-不用自己的机器一直开着，免费。
+### The PH API disconnects intermittently from some networks
 
-1. 在 GitHub 建个仓库（public 无限免费；private 每月 2000 分钟免费额度，这个任务每天只跑 1 分钟）
-2. 把 `tool-radar/` 里的内容 push 上去
-3. 在 **Settings → Secrets and variables → Actions → Repository secrets** 里加一个 `PH_API_TOKEN`
-   （必须是 Repository secrets，不是 Environment secrets —— 后者需要在 workflow 里声明 `environment:` 才会注入）
-4. 进 Actions 页面，手动触发一次 `采集品类热度` 验证
-5. 之后每天 UTC 01:17（北京时间 09:17）自动跑，结果自动 commit 回仓库
+Measured: roughly **1 in 3 requests** dies at the TLS layer
+(`SSL: UNEXPECTED_EOF_WHILE_READING`), but a retry gets through. `_ph_post` therefore
+carries 4 backoff retries. Note this is not DNS-level blocking — `curl` over the same
+network succeeds.
 
-`GITHUB_TOKEN` 是 Actions 内置的，不用自己配。
+## Deploying to GitHub Actions (recommended)
 
-**本地定时**（不想用 GitHub）：Windows 任务计划程序 / Linux cron 调
-`python collect.py` 即可，但电脑得开着。
+Free, and no machine of yours needs to stay on.
 
-### ⚠️ 别让本地和 Actions 同时写数据
+1. Create a repo on GitHub (public is unlimited-free; private gets 2,000 minutes/month
+   and this job uses about 1 minute a day)
+2. Push the contents of `tool-radar/`
+3. Under **Settings → Secrets and variables → Actions → Repository secrets**, add
+   `PH_API_TOKEN` (it must be a *Repository* secret, not an *Environment* secret — the
+   latter only gets injected if the workflow declares `environment:`)
+4. Go to the Actions tab and trigger `采集品类热度` manually once to verify
+5. After that it runs daily at 01:17 UTC and commits results back to the repo
 
-这是实际踩过的坑。
+`GITHUB_TOKEN` is built into Actions — no setup needed.
 
-`data/` 和 `reports/` 是生成物，**本地跑和 Actions 跑都会改它们**。如果两边都提交再合并，
-Git 会把两份追加内容**拼在一起** —— `history.csv` 直接翻倍，而且**不会有冲突提示**，
-因为两边都是「在文件末尾追加」，Git 判定为非冲突，静默拼接。
+**Local scheduling** (if you'd rather not use GitHub): Windows Task Scheduler or Linux
+cron running `python collect.py`. Your machine has to stay on.
 
-（`git merge -X ours` 也救不了 —— 它只作用于冲突块，而这种静默拼接不算冲突。）
+### ⚠️ Never let local and Actions write data at the same time
 
-**结论：把 Actions 当唯一的数据写入方。**
+This one was hit for real.
 
-本地只在调试时跑，而且**只提交代码，不提交数据**：
+`data/` and `reports/` are generated artifacts, and **both a local run and an Actions run
+modify them**. If both get committed and then merged, Git **concatenates** the two
+appends — `history.csv` simply doubles, and **there is no conflict warning**, because
+both sides "appended at the end of the file," which Git treats as non-conflicting.
+
+(`git merge -X ours` doesn't help either — it only applies to conflicting hunks, and this
+silent concatenation isn't one.)
+
+**The rule: let Actions be the only data writer.**
+
+Run locally only for debugging, and **commit code only, never data**:
 
 ```bash
-git add collect.py config.json README.md README.en.md .gitattributes .github/
-git commit -m "改了什么"
-git push          # 注意：不含 data/ 和 reports/
+git add collect.py chart.py config.json README.md README.zh-CN.md .gitattributes .github/
+git commit -m "what changed"
+git push          # note: no data/ or reports/
 ```
 
-如果确实要把本地采的数据传上去，先 `git pull`，再把远端数据取回来对一遍：
+If you really do need to push locally collected data, `git pull` first and take the
+remote's data back:
 
 ```bash
 git pull
 git checkout origin/main -- data/ reports/
-# 确认没有重复行之后再提交
+# confirm there are no duplicate rows before committing
 ```
 
-验证有没有重复行：
+Checking for duplicate rows:
 
 ```bash
 python -c "import csv,collections; rows=list(csv.DictReader(open('data/history.csv',encoding='utf-8'))); print(collections.Counter(r['date'] for r in rows))"
 ```
 
-正常情况每天一个计数条目。注意**别用 `cut -d,`** 来解析 —— 字段里含逗号时
-（比如 Product Hunt 的 topic）列会错位，要用正经的 CSV 解析器。
+Normally you'll see one entry per day. Note: **don't parse this with `cut -d,`** — when a
+field contains commas (Product Hunt topics, for instance) the columns shift. Use a real
+CSV parser.
 
-## 已知限制
+## Known limitations
 
-- **只有开源项目 + Product Hunt**。GitHub 覆盖不到闭源 SaaS，PH 补上了一部分，但两边合起来仍不是全貌
-- **首次运行没有基线**，增速榜是空的。跑第二次才有意义
-- **未认证时 GitHub 搜索接口 10 次/分**，11 个品类会触发限流。代码里有退避重试，会自己恢复，但会慢一点。配个 token 更省事
-- HN 数据对小众品类覆盖较差（比如 MCP 一天可能只有 1 条）
-- **趋势图需要时间**。少于 2 天数据画不出趋势，会降级成柱状图
+- **Open source plus Product Hunt only.** GitHub can't see closed-source SaaS; PH covers
+  part of that gap, but together they still aren't the whole picture
+- **No baseline on first run** — the movers table is empty. It only becomes meaningful
+  on the second run
+- **Unauthenticated GitHub search is 10 requests/min**, so 11 categories will hit the
+  limit. There's backoff-and-retry built in and it recovers on its own, just slower.
+  A token makes this a non-issue
+- HN coverage is thin for niche categories (MCP might yield a single hit on a given day)
+- **The trend chart needs time.** Under 2 days of data there's no trend to draw, so it
+  falls back to a bar chart
 
-## 下一步可以加的数据源
+## Possible additions
 
-按性价比排：
+In rough order of value-for-effort:
 
-1. **AI 工具导航站**（toolify / futurepedia / theresanaiforthat）— 能拿到完整品类地图，但要写爬虫，对方改版就得修
-2. **Google Trends** — 回答「需求在涨还是在退」，`pytrends` 免费但会限流
-3. **Reddit** — 有 API，看垂直社区讨论和真实抱怨
-4. **定时推送** — 增速榜有异动时推送到微信（Server酱）/ 邮件。**可能是最实用的一条** —— 报告躺在仓库里，不加推送你不会天天去看
+1. **AI tool directories** (toolify / futurepedia / theresanaiforthat) — a complete
+   category map, but requires a scraper that breaks whenever they redesign
+2. **Google Trends** — answers "is demand rising or falling". `pytrends` is free but rate-limited
+3. **Reddit** — has an API; vertical community discussion and real complaints
+4. **Push notifications** — alert to WeChat (ServerChan) or email when the movers table
+   spikes. **Probably the most valuable item here** — a report sitting in a repo is one
+   you won't check daily
