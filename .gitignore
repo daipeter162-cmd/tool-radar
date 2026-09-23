@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 本地环境变量（GitHub token 之类，别提交）
+.env
+.env.local
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# 注意：data/ 和 reports/ 是故意要提交的。
+# 定时任务每天会把采集结果 commit 回仓库，这个仓库本身就是数据库。
