@@ -346,7 +346,9 @@ def collect_producthunt(spec, token):
             "date": created,
             # PH 返回的 url 带一长串 utm 追踪参数，砍掉，否则表格没法看
             "url": (node.get("url") or "").split("?")[0],
-            "topics": ", ".join(topics),
+            # 用 / 分隔而不是逗号：topic 名里本身含逗号时，CSV 会被引号包裹，
+            # 用 cut / awk 这类工具解析会错位
+            "topics": " / ".join(topics),
         })
     rows.sort(key=lambda r: -r["votes"])
     return rows
