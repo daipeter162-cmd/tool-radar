@@ -9,8 +9,18 @@ every run, diffs against the previous one, and reports what's climbing and what'
 
 ![Trend chart](reports/trend.en.png)
 
-> The chart above is redrawn daily by `chart.py`. **Once you have 2+ days of data it
-> automatically switches from a bar chart to a small-multiples line chart.**
+> The chart above is redrawn daily by `chart.py`, which picks its form based on how much
+> history exists:
+>
+> | Days collected | Chart |
+> |---|---|
+> | 1 | bars: median stars per category (no baseline yet) |
+> | 2 | bars: new stars gained that day |
+> | **3+** | **small-multiples line chart — one panel per category** |
+>
+> A line needs 2 diff points, and the first day has no baseline to diff against — so
+> day 3 is the earliest a trend line can exist. Day 2 falls back to a bar chart of that
+> day's gains, which is already the real signal, just without a second point to show change.
 >
 > Why one panel per category instead of 11 colored lines on one chart: a categorical
 > palette can only safely carry 8 hues — from the 9th onward, colors become
@@ -284,8 +294,8 @@ CSV parser.
   limit. There's backoff-and-retry built in and it recovers on its own, just slower.
   A token makes this a non-issue
 - HN coverage is thin for niche categories (MCP might yield a single hit on a given day)
-- **The trend chart needs time.** Under 2 days of data there's no trend to draw, so it
-  falls back to a bar chart
+- **The trend chart needs time.** A line needs 2 diff points, which needs 3 days of
+  collection. Before that it falls back to a bar chart
 
 ## Possible additions
 

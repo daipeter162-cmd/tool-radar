@@ -60,12 +60,14 @@ BASELINE = "#c3c2b7"     # 基线
 STRINGS = {
     "zh": {
         "trend_title": "各品类每日新增 star（只统计两天都在榜的项目）",
-        "scale_title": "各品类中位 star（{date}，仅 {n} 天数据，趋势图需积累 2 天以上）",
+        "gain_title": "各品类新增 star（{date}）—— 攒够 3 天数据后自动变成折线趋势图",
+        "scale_title": "各品类中位 star（{date}）—— 首次采集，还没有可对比的基线",
         "no_data": "数据不足",
     },
     "en": {
         "trend_title": "Daily new stars per category (projects present on both days only)",
-        "scale_title": "Median stars per category ({date} - only {n} day of data; trend needs 2+)",
+        "gain_title": "New stars per category ({date}) - becomes a trend line once 3 days of data exist",
+        "scale_title": "Median stars per category ({date}) - first run, no baseline to compare against yet",
         "no_data": "no data",
     },
 }
@@ -215,32 +217,45 @@ def draw_trend(mpl, plt, gains, dates, names, lang):
     return fig
 
 
-def draw_scale(mpl, plt, series, names, lang):
-    """降级图：数据不足 2 天时，画当前各品类规模。"""
-    S = STRINGS[lang]
-    latest = sorted(series)[-1]
-    stats = []
-    for cat, repos in series[latest].items():
-        stars = sorted(repos.values())
-        mid = stars[len(stars) // 2]
-        stats.append((label_for(cat, names, lang), mid))
-    stats.sort(key=lambda s: s[1])
-
-    fig, ax = plt.subplots(figsize=(9, 0.45 * len(stats) + 1.6), facecolor=SURFACE)
-    ax.barh([s[0] for s in stats], [s[1] for s in stats],
+def draw_bars(plt, items, title):
+    """横向柱状图。items = [(标签, 数值)]，会按数值升序排。"""
+    items = sorted(items, key=lambda x: x[1])
+    fig, ax = plt.subplots(figsize=(9, 0.45 * len(items) + 1.6), facecolor=SURFACE)
+    ax.barh([i[0] for i in items], [i[1] for i in items],
             color=SERIES, height=0.62, zorder=3)
 
-    for i, (_, v) in enumerate(stats):
+    for i, (_, v) in enumerate(items):
         ax.annotate(f"{v:,}", (v, i), textcoords="offset points", xytext=(6, 0),
                     va="center", fontsize=9, color=INK)
 
-    ax.set_title(S["scale_title"].format(date=latest, n=1),
-                 fontsize=12, color=INK, pad=12, loc="left")
-    ax.set_xlim(0, max(s[1] for s in stats) * 1.18)
+    ax.set_title(title, fontsize=12, color=INK, pad=12, loc="left")
+    ax.set_xlim(0, max(i[1] for i in items) * 1.18)
     style_axes(ax, show_grid=True)
     ax.grid(axis="y", visible=False)  # 横向条不需要横网格
     fig.tight_layout()
     return fig
+
+
+def draw_scale(plt, series, names, lang):
+    """第 1 天的降级图：还没有基线，只能画当前规模。"""
+    latest = sorted(series)[-1]
+    items = []
+    for cat, repos in series[latest].items():
+        stars = sorted(repos.values())
+        items.append((label_for(cat, names, lang), stars[len(stars) // 2]))
+    return draw_bars(plt, items, STRINGS[lang]["scale_title"].format(date=latest))
+
+
+def draw_gain_bars(plt, gains, plot_days, names, lang):
+    """第 2 天的降级图：只有一个对比点，连不成线。
+
+    这时画「当日新增 star」的柱状图，比画当前规模有用得多 ——
+    它已经是那个真正的信号了，只是还没有第二个点来体现变化。
+    """
+    latest = plot_days[-1]
+    day_gains = gains[latest]
+    items = [(label_for(c, names, lang), v) for c, v in day_gains.items()]
+    return draw_bars(plt, items, STRINGS[lang]["gain_title"].format(date=latest))
 
 
 def write_table(gains, dates):
@@ -275,25 +290,42 @@ def main():
     langs = ["zh", "en"] if args.lang == "both" else [args.lang]
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
+    # 折线需要 ≥2 个对比点，也就是**采集天数 ≥3**：
+    # 第 1 天没有基线，第 2 天只有 1 个点（连不成线），第 3 天才够。
+    plot_days = dates[1:]
+    if len(plot_days) >= 2:
+        mode = "trend"
+    elif len(plot_days) == 1:
+        mode = "gain"
+    else:
+        mode = "scale"
+
     for lang in langs:
         font = setup_font(matplotlib, lang)
         if lang == "zh":
             print(f"中文字体: {font or '未找到（中文可能显示为方块）'}")
 
-        if len(dates) >= 2:
+        if mode == "trend":
             fig = draw_trend(matplotlib, plt, gains, dates, names, lang)
+        elif mode == "gain":
+            fig = draw_gain_bars(plt, gains, plot_days, names, lang)
         else:
-            fig = draw_scale(matplotlib, plt, series, names, lang)
+            fig = draw_scale(plt, series, names, lang)
 
         out = REPORT_DIR / f"trend.{lang}.png"
         fig.savefig(out, dpi=140, facecolor=SURFACE, bbox_inches="tight")
         plt.close(fig)
         print(f"已保存: {out}")
 
-    if len(dates) >= 2:
+    if plot_days:
         write_table(gains, dates)
-    else:
-        print(f"只有 {len(dates)} 天数据，趋势图需要 ≥2 天，本次画的是当前规模。")
+
+    print({
+        "trend": f"数据跨度 {len(dates)} 天，画折线趋势图",
+        "gain": f"数据跨度 {len(dates)} 天，只有 1 个对比点，画当日新增柱状图"
+                f"（第 3 天起自动变折线）",
+        "scale": f"只有 {len(dates)} 天数据，还没有可比基线，画当前规模",
+    }[mode])
     return 0
 
 
