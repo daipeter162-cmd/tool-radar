@@ -1,167 +1,167 @@
 {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "github": {
     "AI Agent": {
       "firecrawl/firecrawl": {
-        "stars": 199905,
+        "stars": 200275,
         "url": "https://github.com/firecrawl/firecrawl"
       },
       "DietrichGebert/ponytail": {
-        "stars": 187108,
+        "stars": 187983,
         "url": "https://github.com/DietrichGebert/ponytail"
       },
       "Shubhamsaboo/awesome-llm-apps": {
-        "stars": 144242,
+        "stars": 144325,
         "url": "https://github.com/Shubhamsaboo/awesome-llm-apps"
       },
       "earendil-works/pi": {
-        "stars": 120948,
+        "stars": 121157,
         "url": "https://github.com/earendil-works/pi"
       },
       "Panniantong/Agent-Reach": {
-        "stars": 110408,
+        "stars": 110735,
         "url": "https://github.com/Panniantong/Agent-Reach"
       },
       "google-gemini/gemini-cli": {
-        "stars": 108797,
+        "stars": 108748,
         "url": "https://github.com/google-gemini/gemini-cli"
       },
       "nexu-io/open-design": {
-        "stars": 106713,
+        "stars": 106923,
         "url": "https://github.com/nexu-io/open-design"
       },
       "karpathy/autoresearch": {
-        "stars": 99640,
+        "stars": 99716,
         "url": "https://github.com/karpathy/autoresearch"
       },
       "unclecode/crawl4ai": {
-        "stars": 87121,
+        "stars": 87165,
         "url": "https://github.com/unclecode/crawl4ai"
       },
       "dair-ai/Prompt-Engineering-Guide": {
-        "stars": 79932,
+        "stars": 79956,
         "url": "https://github.com/dair-ai/Prompt-Engineering-Guide"
       },
       "microsoft/ai-agents-for-beginners": {
-        "stars": 79235,
+        "stars": 79331,
         "url": "https://github.com/microsoft/ai-agents-for-beginners"
       },
       "openbq-org/OpenBB": {
-        "stars": 75256,
+        "stars": 75290,
         "url": "https://github.com/openbq-org/OpenBB"
       },
       "thedaviddias/Front-End-Checklist": {
-        "stars": 74681,
+        "stars": 74690,
         "url": "https://github.com/thedaviddias/Front-End-Checklist"
       },
       "mem0ai/mem0": {
-        "stars": 68670,
+        "stars": 68733,
         "url": "https://github.com/mem0ai/mem0"
       },
       "mvanhorn/last30days-skill": {
-        "stars": 67049,
+        "stars": 67171,
         "url": "https://github.com/mvanhorn/last30days-skill"
       },
       "upstash/context7": {
-        "stars": 64396,
+        "stars": 64446,
         "url": "https://github.com/upstash/context7"
       },
       "crewAIInc/crewAI": {
-        "stars": 60676,
+        "stars": 60714,
         "url": "https://github.com/crewAIInc/crewAI"
       },
       "coreyhaines31/marketingskills": {
-        "stars": 59285,
+        "stars": 59485,
         "url": "https://github.com/coreyhaines31/marketingskills"
       },
       "bojieli/ai-agent-book": {
-        "stars": 57527,
+        "stars": 57619,
         "url": "https://github.com/bojieli/ai-agent-book"
       },
       "K-Dense-AI/scientific-agent-skills": {
-        "stars": 56534,
+        "stars": 56648,
         "url": "https://github.com/K-Dense-AI/scientific-agent-skills"
       },
       "aaif-goose/goose": {
-        "stars": 56383,
+        "stars": 56418,
         "url": "https://github.com/aaif-goose/goose"
       },
       "FlowiseAI/Flowise": {
-        "stars": 55567,
+        "stars": 55563,
         "url": "https://github.com/FlowiseAI/Flowise"
       },
       "multica-ai/multica": {
-        "stars": 55370,
+        "stars": 55485,
         "url": "https://github.com/multica-ai/multica"
       },
       "DavidHDev/react-bits": {
-        "stars": 51546,
+        "stars": 51613,
         "url": "https://github.com/DavidHDev/react-bits"
       },
       "sickn33/agentic-awesome-skills": {
-        "stars": 49391,
+        "stars": 49444,
         "url": "https://github.com/sickn33/agentic-awesome-skills"
       }
     },
     "LLM 应用": {
       "Shubhamsaboo/awesome-llm-apps": {
-        "stars": 144242,
+        "stars": 144325,
         "url": "https://github.com/Shubhamsaboo/awesome-llm-apps"
       },
       "rasbt/LLMs-from-scratch": {
-        "stars": 108054,
+        "stars": 108136,
         "url": "https://github.com/rasbt/LLMs-from-scratch"
       },
       "mlabonne/llm-course": {
-        "stars": 84956,
+        "stars": 85020,
         "url": "https://github.com/mlabonne/llm-course"
       },
       "Mintplex-Labs/anything-llm": {
-        "stars": 68092,
+        "stars": 68132,
         "url": "https://github.com/Mintplex-Labs/anything-llm"
       },
       "Lordog/dive-into-llms": {
-        "stars": 59823,
+        "stars": 59934,
         "url": "https://github.com/Lordog/dive-into-llms"
       },
       "AlexsJones/llmfit": {
-        "stars": 38802,
+        "stars": 38871,
         "url": "https://github.com/AlexsJones/llmfit"
       },
       "karpathy/LLM101n": {
-        "stars": 37478,
+        "stars": 37473,
         "url": "https://github.com/karpathy/LLM101n"
       },
       "datawhalechina/happy-llm": {
-        "stars": 34825,
+        "stars": 34853,
         "url": "https://github.com/datawhalechina/happy-llm"
       },
       "datawhalechina/self-llm": {
-        "stars": 32732,
+        "stars": 32741,
         "url": "https://github.com/datawhalechina/self-llm"
       },
       "karpathy/llm.c": {
-        "stars": 31409,
+        "stars": 31417,
         "url": "https://github.com/karpathy/llm.c"
       },
       "Hannibal046/Awesome-LLM": {
-        "stars": 27490,
+        "stars": 27493,
         "url": "https://github.com/Hannibal046/Awesome-LLM"
       },
       "karpathy/llm-council": {
-        "stars": 26348,
+        "stars": 26373,
         "url": "https://github.com/karpathy/llm-council"
       },
       "liguodongiot/llm-action": {
-        "stars": 25266,
+        "stars": 25268,
         "url": "https://github.com/liguodongiot/llm-action"
       },
       "datawhalechina/llm-cookbook": {
-        "stars": 24881,
+        "stars": 24883,
         "url": "https://github.com/datawhalechina/llm-cookbook"
       },
       "mlc-ai/mlc-llm": {
-        "stars": 23315,
+        "stars": 23318,
         "url": "https://github.com/mlc-ai/mlc-llm"
       },
       "AiHubCN/Awesome-Chinese-LLM": {
@@ -169,61 +169,61 @@
         "url": "https://github.com/AiHubCN/Awesome-Chinese-LLM"
       },
       "nashsu/llm_wiki": {
-        "stars": 21514,
+        "stars": 21539,
         "url": "https://github.com/nashsu/llm_wiki"
       },
       "mlc-ai/web-llm": {
-        "stars": 19366,
+        "stars": 19365,
         "url": "https://github.com/mlc-ai/web-llm"
       },
       "ZJU-LLMs/Foundations-of-LLMs": {
-        "stars": 18520,
+        "stars": 18541,
         "url": "https://github.com/ZJU-LLMs/Foundations-of-LLMs"
       },
       "wdndev/llm_interview_note": {
-        "stars": 15377,
+        "stars": 15380,
         "url": "https://github.com/wdndev/llm_interview_note"
       },
       "NVIDIA/TensorRT-LLM": {
-        "stars": 15042,
+        "stars": 15050,
         "url": "https://github.com/NVIDIA/TensorRT-LLM"
       },
       "llmware-ai/llmware": {
-        "stars": 14822,
+        "stars": 14823,
         "url": "https://github.com/llmware-ai/llmware"
       },
       "Open-LLM-VTuber/Open-LLM-VTuber": {
-        "stars": 14653,
+        "stars": 14665,
         "url": "https://github.com/Open-LLM-VTuber/Open-LLM-VTuber"
       },
       "datawhalechina/llm-universe": {
-        "stars": 14279,
+        "stars": 14284,
         "url": "https://github.com/datawhalechina/llm-universe"
       },
       "FareedKhan-dev/train-llm-from-scratch": {
-        "stars": 13172,
+        "stars": 13181,
         "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch"
       }
     },
     "RAG 检索增强": {
       "infiniflow/ragflow": {
-        "stars": 93810,
+        "stars": 93936,
         "url": "https://github.com/infiniflow/ragflow"
       },
       "HKUDS/LightRAG": {
-        "stars": 40616,
+        "stars": 40633,
         "url": "https://github.com/HKUDS/LightRAG"
       },
       "microsoft/graphrag": {
-        "stars": 36601,
+        "stars": 36617,
         "url": "https://github.com/microsoft/graphrag"
       },
       "NirDiamant/RAG_Techniques": {
-        "stars": 30277,
+        "stars": 30286,
         "url": "https://github.com/NirDiamant/RAG_Techniques"
       },
       "SciPhi-AI/R2R": {
-        "stars": 8075,
+        "stars": 8078,
         "url": "https://github.com/SciPhi-AI/R2R"
       },
       "Azure-Samples/azure-search-openai-demo": {
@@ -235,7 +235,7 @@
         "url": "https://github.com/weaviate/Verba"
       },
       "langflow-ai/openrag": {
-        "stars": 4676,
+        "stars": 4680,
         "url": "https://github.com/langflow-ai/openrag"
       },
       "truefoundry/cognita": {
@@ -243,7 +243,7 @@
         "url": "https://github.com/truefoundry/cognita"
       },
       "GiovanniPasq/agentic-rag-for-dummies": {
-        "stars": 4369,
+        "stars": 4372,
         "url": "https://github.com/GiovanniPasq/agentic-rag-for-dummies"
       },
       "mongodb-developer/GenAI-Showcase": {
@@ -251,7 +251,7 @@
         "url": "https://github.com/mongodb-developer/GenAI-Showcase"
       },
       "rag-web-ui/rag-web-ui": {
-        "stars": 3297,
+        "stars": 3298,
         "url": "https://github.com/rag-web-ui/rag-web-ui"
       },
       "NVIDIA/ChatRTX": {
@@ -259,7 +259,7 @@
         "url": "https://github.com/NVIDIA/ChatRTX"
       },
       "DEEP-PolyU/Awesome-GraphRAG": {
-        "stars": 2688,
+        "stars": 2686,
         "url": "https://github.com/DEEP-PolyU/Awesome-GraphRAG"
       },
       "athina-ai/rag-cookbooks": {
@@ -275,7 +275,7 @@
         "url": "https://github.com/hymie122/RAG-Survey"
       },
       "asinghcsu/AgenticRAG-Survey": {
-        "stars": 1746,
+        "stars": 1747,
         "url": "https://github.com/asinghcsu/AgenticRAG-Survey"
       },
       "NirDiamant/Controllable-RAG-Agent": {
@@ -283,7 +283,7 @@
         "url": "https://github.com/NirDiamant/Controllable-RAG-Agent"
       },
       "Danielskry/Awesome-RAG": {
-        "stars": 1424,
+        "stars": 1426,
         "url": "https://github.com/Danielskry/Awesome-RAG"
       },
       "jxzhangjhu/Awesome-LLM-RAG": {
@@ -309,59 +309,59 @@
     },
     "AI 编程": {
       "x1xhlol/system-prompts-and-models-of-ai-tools": {
-        "stars": 144577,
+        "stars": 144593,
         "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools"
       },
       "addyosmani/agent-skills": {
-        "stars": 114265,
+        "stars": 114712,
         "url": "https://github.com/addyosmani/agent-skills"
       },
       "OpenMontageInc/OpenMontage": {
-        "stars": 78816,
+        "stars": 79243,
         "url": "https://github.com/OpenMontageInc/OpenMontage"
       },
       "Fission-AI/OpenSpec": {
-        "stars": 74348,
+        "stars": 74477,
         "url": "https://github.com/Fission-AI/OpenSpec"
       },
       "zhaoxuya520/reverse-skill": {
-        "stars": 44337,
+        "stars": 44403,
         "url": "https://github.com/zhaoxuya520/reverse-skill"
       },
       "JCodesMore/ai-website-cloner-template": {
-        "stars": 38884,
+        "stars": 38937,
         "url": "https://github.com/JCodesMore/ai-website-cloner-template"
       },
       "TabbyML/tabby": {
-        "stars": 33927,
+        "stars": 33929,
         "url": "https://github.com/TabbyML/tabby"
       },
       "tirth8205/code-review-graph": {
-        "stars": 32654,
+        "stars": 32680,
         "url": "https://github.com/tirth8205/code-review-graph"
       },
       "decolua/9router": {
-        "stars": 32152,
+        "stars": 32196,
         "url": "https://github.com/decolua/9router"
       },
       "rohitg00/agentmemory": {
-        "stars": 30220,
+        "stars": 30250,
         "url": "https://github.com/rohitg00/agentmemory"
       },
       "QwenLM/qwen-code": {
-        "stars": 29120,
+        "stars": 29152,
         "url": "https://github.com/QwenLM/qwen-code"
       },
       "manaflow-ai/cmux": {
-        "stars": 28737,
+        "stars": 28745,
         "url": "https://github.com/manaflow-ai/cmux"
       },
       "OthmanAdi/planning-with-files": {
-        "stars": 27958,
+        "stars": 27979,
         "url": "https://github.com/OthmanAdi/planning-with-files"
       },
       "coleam00/Archon": {
-        "stars": 23869,
+        "stars": 23877,
         "url": "https://github.com/coleam00/Archon"
       },
       "labring/sealos": {
@@ -369,49 +369,49 @@
         "url": "https://github.com/labring/sealos"
       },
       "greensock/gsap-skills": {
-        "stars": 18136,
+        "stars": 18208,
         "url": "https://github.com/greensock/gsap-skills"
       },
       "google/artemis": {
-        "stars": 17055,
+        "stars": 17145,
         "url": "https://github.com/google/artemis"
       },
       "chenhg5/cc-connect": {
-        "stars": 16293,
+        "stars": 16309,
         "url": "https://github.com/chenhg5/cc-connect"
       },
       "GLips/Figma-Context-MCP": {
-        "stars": 16178,
+        "stars": 16185,
         "url": "https://github.com/GLips/Figma-Context-MCP"
       },
       "plandex-ai/plandex": {
-        "stars": 15905,
+        "stars": 15904,
         "url": "https://github.com/plandex-ai/plandex"
       },
       "AndyMik90/Aperant": {
-        "stars": 14596,
+        "stars": 14610,
         "url": "https://github.com/AndyMik90/Aperant"
       },
       "coleam00/context-engineering-intro": {
-        "stars": 13904,
+        "stars": 13907,
         "url": "https://github.com/coleam00/context-engineering-intro"
       },
       "opencode-ai/opencode": {
-        "stars": 13877,
+        "stars": 13879,
         "url": "https://github.com/opencode-ai/opencode"
       },
       "humanlayer/humanlayer": {
-        "stars": 12845,
+        "stars": 12850,
         "url": "https://github.com/humanlayer/humanlayer"
       },
       "infracost/infracost": {
-        "stars": 12615,
+        "stars": 12616,
         "url": "https://github.com/infracost/infracost"
       }
     },
     "文生图": {
       "CompVis/stable-diffusion": {
-        "stars": 73576,
+        "stars": 73575,
         "url": "https://github.com/CompVis/stable-diffusion"
       },
       "lucidrains/DALLE2-pytorch": {
@@ -471,7 +471,7 @@
         "url": "https://github.com/paarthneekhara/text-to-image"
       },
       "instantX-research/InstantStyle": {
-        "stars": 2019,
+        "stars": 2020,
         "url": "https://github.com/instantX-research/InstantStyle"
       },
       "adobe-research/custom-diffusion": {
@@ -483,7 +483,7 @@
         "url": "https://github.com/PixArt-alpha/PixArt-sigma"
       },
       "YangLing0818/RPG-DiffusionMaster": {
-        "stars": 1846,
+        "stars": 1845,
         "url": "https://github.com/YangLing0818/RPG-DiffusionMaster"
       },
       "zai-org/CogView": {
@@ -553,11 +553,11 @@
         "url": "https://github.com/showlab/MotionDirector"
       },
       "FoundationVision/Waver": {
-        "stars": 954,
+        "stars": 953,
         "url": "https://github.com/FoundationVision/Waver"
       },
       "PKU-YuanGroup/ConsisID": {
-        "stars": 865,
+        "stars": 866,
         "url": "https://github.com/PKU-YuanGroup/ConsisID"
       },
       "YBYBZhang/ControlVideo": {
@@ -565,7 +565,7 @@
         "url": "https://github.com/YBYBZhang/ControlVideo"
       },
       "jianzhnie/awesome-text-to-video": {
-        "stars": 754,
+        "stars": 755,
         "url": "https://github.com/jianzhnie/awesome-text-to-video"
       },
       "ExponentialML/Text-To-Video-Finetuning": {
@@ -577,7 +577,7 @@
         "url": "https://github.com/lucidrains/nuwa-pytorch"
       },
       "SamurAIGPT/Seedance-2.5-API": {
-        "stars": 507,
+        "stars": 509,
         "url": "https://github.com/SamurAIGPT/Seedance-2.5-API"
       },
       "NJU-PCALab/OpenVid-1M": {
@@ -589,7 +589,7 @@
         "url": "https://github.com/microsoft/World-R1"
       },
       "wideeyededi/uncensored-nsfw-ai-video-api": {
-        "stars": 426,
+        "stars": 427,
         "url": "https://github.com/wideeyededi/uncensored-nsfw-ai-video-api"
       },
       "WeChatCV/Wan-Alpha": {
@@ -601,49 +601,49 @@
         "url": "https://github.com/Weifeng-Chen/control-a-video"
       },
       "Anil-matcha/Seedance-2-API": {
-        "stars": 362,
+        "stars": 363,
         "url": "https://github.com/Anil-matcha/Seedance-2-API"
       },
       "mrbizarro/Phosphene": {
-        "stars": 343,
+        "stars": 358,
         "url": "https://github.com/mrbizarro/Phosphene"
       },
-      "zhouwei713/seedance-prompt": {
-        "stars": 337,
-        "url": "https://github.com/zhouwei713/seedance-prompt"
+      "q1uki/MoneyPrinterAICreate": {
+        "stars": 338,
+        "url": "https://github.com/q1uki/MoneyPrinterAICreate"
       }
     },
     "语音合成 TTS": {
       "coqui-ai/TTS": {
-        "stars": 46195,
+        "stars": 46200,
         "url": "https://github.com/coqui-ai/TTS"
       },
       "index-tts/index-tts": {
-        "stars": 25001,
+        "stars": 25021,
         "url": "https://github.com/index-tts/index-tts"
       },
       "NVIDIA-NeMo/Speech": {
-        "stars": 18719,
+        "stars": 18721,
         "url": "https://github.com/NVIDIA-NeMo/Speech"
       },
       "k2-fsa/sherpa-onnx": {
-        "stars": 15840,
+        "stars": 15854,
         "url": "https://github.com/k2-fsa/sherpa-onnx"
       },
       "rany2/edge-tts": {
-        "stars": 12490,
+        "stars": 12499,
         "url": "https://github.com/rany2/edge-tts"
       },
       "moonshine-ai/moonshine": {
-        "stars": 11441,
+        "stars": 11455,
         "url": "https://github.com/moonshine-ai/moonshine"
       },
       "rhasspy/piper": {
-        "stars": 11319,
+        "stars": 11321,
         "url": "https://github.com/rhasspy/piper"
       },
       "mozilla/TTS": {
-        "stars": 10185,
+        "stars": 10186,
         "url": "https://github.com/mozilla/TTS"
       },
       "jasonppy/VoiceCraft": {
@@ -651,7 +651,7 @@
         "url": "https://github.com/jasonppy/VoiceCraft"
       },
       "Neywa-Labs/mlx-audio": {
-        "stars": 8219,
+        "stars": 8226,
         "url": "https://github.com/Neywa-Labs/mlx-audio"
       },
       "jaywalnut310/vits": {
@@ -659,27 +659,27 @@
         "url": "https://github.com/jaywalnut310/vits"
       },
       "myshell-ai/MeloTTS": {
-        "stars": 7704,
+        "stars": 7706,
         "url": "https://github.com/myshell-ai/MeloTTS"
       },
       "Zyphra/Zonos": {
-        "stars": 7238,
+        "stars": 7239,
         "url": "https://github.com/Zyphra/Zonos"
       },
       "yl4579/StyleTTS2": {
-        "stars": 6386,
+        "stars": 6384,
         "url": "https://github.com/yl4579/StyleTTS2"
       },
       "OHF-Voice/piper1-gpl": {
-        "stars": 6222,
+        "stars": 6236,
         "url": "https://github.com/OHF-Voice/piper1-gpl"
       },
       "snakers4/silero-models": {
-        "stars": 6178,
+        "stars": 6182,
         "url": "https://github.com/snakers4/silero-models"
       },
       "remsky/Kokoro-FastAPI": {
-        "stars": 5656,
+        "stars": 5664,
         "url": "https://github.com/remsky/Kokoro-FastAPI"
       },
       "WhisperSpeech/WhisperSpeech": {
@@ -687,19 +687,19 @@
         "url": "https://github.com/WhisperSpeech/WhisperSpeech"
       },
       "KoljaB/RealtimeTTS": {
-        "stars": 4052,
+        "stars": 4053,
         "url": "https://github.com/KoljaB/RealtimeTTS"
       },
       "FluidInference/FluidAudio": {
-        "stars": 3281,
+        "stars": 3283,
         "url": "https://github.com/FluidInference/FluidAudio"
       },
       "MisoLabsAI/MisoTTS": {
-        "stars": 3249,
+        "stars": 3248,
         "url": "https://github.com/MisoLabsAI/MisoTTS"
       },
       "pnnbao97/VieNeu-TTS": {
-        "stars": 3168,
+        "stars": 3182,
         "url": "https://github.com/pnnbao97/VieNeu-TTS"
       },
       "zzw922cn/awesome-speech-recognition-speech-synthesis-papers": {
@@ -717,39 +717,39 @@
     },
     "语音识别 STT": {
       "cjpais/Handy": {
-        "stars": 38098,
+        "stars": 38235,
         "url": "https://github.com/cjpais/Handy"
       },
       "mozilla/DeepSpeech": {
-        "stars": 26773,
+        "stars": 26774,
         "url": "https://github.com/mozilla/DeepSpeech"
       },
       "Evil0ctal/Douyin_TikTok_Download_API": {
-        "stars": 21301,
+        "stars": 21324,
         "url": "https://github.com/Evil0ctal/Douyin_TikTok_Download_API"
       },
       "k2-fsa/sherpa-onnx": {
-        "stars": 15840,
+        "stars": 15854,
         "url": "https://github.com/k2-fsa/sherpa-onnx"
       },
       "moonshine-ai/moonshine": {
-        "stars": 11441,
+        "stars": 11455,
         "url": "https://github.com/moonshine-ai/moonshine"
       },
       "QuentinFuxa/WhisperLiveKit": {
-        "stars": 11221,
+        "stars": 11227,
         "url": "https://github.com/QuentinFuxa/WhisperLiveKit"
       },
       "KoljaB/RealtimeSTT": {
-        "stars": 10237,
+        "stars": 10239,
         "url": "https://github.com/KoljaB/RealtimeSTT"
       },
       "Neywa-Labs/mlx-audio": {
-        "stars": 8219,
+        "stars": 8226,
         "url": "https://github.com/Neywa-Labs/mlx-audio"
       },
       "buxuku/SmartSub": {
-        "stars": 5981,
+        "stars": 5998,
         "url": "https://github.com/buxuku/SmartSub"
       },
       "buriburisuri/speech-to-text-wavenet": {
@@ -761,11 +761,11 @@
         "url": "https://github.com/ufal/whisper_streaming"
       },
       "off-grid-ai/OGAM": {
-        "stars": 3356,
+        "stars": 3362,
         "url": "https://github.com/off-grid-ai/OGAM"
       },
       "FluidInference/FluidAudio": {
-        "stars": 3281,
+        "stars": 3283,
         "url": "https://github.com/FluidInference/FluidAudio"
       },
       "matthartman/ghost-pepper": {
@@ -777,11 +777,11 @@
         "url": "https://github.com/kyutai-labs/delayed-streams-modeling"
       },
       "coqui-ai/STT": {
-        "stars": 2603,
+        "stars": 2604,
         "url": "https://github.com/coqui-ai/STT"
       },
       "handy-computer/transcribe.cpp": {
-        "stars": 2149,
+        "stars": 2153,
         "url": "https://github.com/handy-computer/transcribe.cpp"
       },
       "joshnewlan/say_what": {
@@ -789,7 +789,7 @@
         "url": "https://github.com/joshnewlan/say_what"
       },
       "techjarves/Portable-Local-Studio": {
-        "stars": 1973,
+        "stars": 1982,
         "url": "https://github.com/techjarves/Portable-Local-Studio"
       },
       "ideasman42/nerd-dictation": {
@@ -797,15 +797,15 @@
         "url": "https://github.com/ideasman42/nerd-dictation"
       },
       "TypeWhisper/typewhisper-mac": {
-        "stars": 1913,
+        "stars": 1916,
         "url": "https://github.com/TypeWhisper/typewhisper-mac"
       },
       "antirez/voxtral.c": {
-        "stars": 1750,
+        "stars": 1751,
         "url": "https://github.com/antirez/voxtral.c"
       },
       "mkiol/dsnote": {
-        "stars": 1709,
+        "stars": 1713,
         "url": "https://github.com/mkiol/dsnote"
       },
       "Robitx/gp.nvim": {
@@ -813,37 +813,37 @@
         "url": "https://github.com/Robitx/gp.nvim"
       },
       "kubeai-project/kubeai": {
-        "stars": 1289,
+        "stars": 1290,
         "url": "https://github.com/kubeai-project/kubeai"
       }
     },
     "向量数据库": {
       "pathwaycom/serviette": {
-        "stars": 58723,
+        "stars": 58722,
         "url": "https://github.com/pathwaycom/serviette"
       },
       "milvus-io/milvus": {
-        "stars": 46614,
+        "stars": 46628,
         "url": "https://github.com/milvus-io/milvus"
       },
       "qdrant/qdrant": {
-        "stars": 35479,
+        "stars": 35494,
         "url": "https://github.com/qdrant/qdrant"
       },
       "rocketride-org/rocketride-server": {
-        "stars": 20053,
+        "stars": 20062,
         "url": "https://github.com/rocketride-org/rocketride-server"
       },
       "weaviate/weaviate": {
-        "stars": 16944,
+        "stars": 16945,
         "url": "https://github.com/weaviate/weaviate"
       },
       "alibaba/zvec": {
-        "stars": 16215,
+        "stars": 16222,
         "url": "https://github.com/alibaba/zvec"
       },
       "objectbox/objectbox-java": {
-        "stars": 4631,
+        "stars": 4630,
         "url": "https://github.com/objectbox/objectbox-java"
       },
       "cozodb/cozo": {
@@ -867,7 +867,7 @@
         "url": "https://github.com/pinecone-io/examples"
       },
       "VexDB-THU/VexDB-Lite": {
-        "stars": 2320,
+        "stars": 2319,
         "url": "https://github.com/VexDB-THU/VexDB-Lite"
       },
       "Mintplex-Labs/vector-admin": {
@@ -875,7 +875,7 @@
         "url": "https://github.com/Mintplex-Labs/vector-admin"
       },
       "tickernelz/opencode-mem": {
-        "stars": 1842,
+        "stars": 1848,
         "url": "https://github.com/tickernelz/opencode-mem"
       },
       "dingodb/dingo": {
@@ -887,7 +887,7 @@
         "url": "https://github.com/skyzh/type-exercise-in-rust"
       },
       "milvus-io/pymilvus": {
-        "stars": 1424,
+        "stars": 1425,
         "url": "https://github.com/milvus-io/pymilvus"
       },
       "jdagdelen/hyperDB": {
@@ -899,7 +899,7 @@
         "url": "https://github.com/endee-io/endee"
       },
       "zilliztech/VectorDBBench": {
-        "stars": 1201,
+        "stars": 1203,
         "url": "https://github.com/zilliztech/VectorDBBench"
       },
       "philippgille/chromem-go": {
@@ -921,23 +921,23 @@
     },
     "MCP 生态": {
       "modelcontextprotocol/servers": {
-        "stars": 91877,
+        "stars": 91897,
         "url": "https://github.com/modelcontextprotocol/servers"
       },
       "modelcontextprotocol/python-sdk": {
-        "stars": 24806,
+        "stars": 24819,
         "url": "https://github.com/modelcontextprotocol/python-sdk"
       },
       "microsoft/mcp-for-beginners": {
-        "stars": 17628,
+        "stars": 17633,
         "url": "https://github.com/microsoft/mcp-for-beginners"
       },
       "modelcontextprotocol/typescript-sdk": {
-        "stars": 13734,
+        "stars": 13740,
         "url": "https://github.com/modelcontextprotocol/typescript-sdk"
       },
       "hangwin/mcp-chrome": {
-        "stars": 12539,
+        "stars": 12538,
         "url": "https://github.com/hangwin/mcp-chrome"
       },
       "tadata-org/fastapi_mcp": {
@@ -945,43 +945,43 @@
         "url": "https://github.com/tadata-org/fastapi_mcp"
       },
       "TykTechnologies/tyk": {
-        "stars": 10879,
+        "stars": 10880,
         "url": "https://github.com/TykTechnologies/tyk"
       },
       "modelcontextprotocol/modelcontextprotocol": {
-        "stars": 9650,
+        "stars": 9655,
         "url": "https://github.com/modelcontextprotocol/modelcontextprotocol"
       },
       "mark3labs/mcp-go": {
-        "stars": 9229,
+        "stars": 9231,
         "url": "https://github.com/mark3labs/mcp-go"
       },
       "lastmile-ai/mcp-agent": {
-        "stars": 8577,
+        "stars": 8578,
         "url": "https://github.com/lastmile-ai/mcp-agent"
       },
       "modelcontextprotocol/registry": {
-        "stars": 7456,
+        "stars": 7455,
         "url": "https://github.com/modelcontextprotocol/registry"
       },
       "getsentry/MobileBuildMCP": {
-        "stars": 6552,
+        "stars": 6558,
         "url": "https://github.com/getsentry/MobileBuildMCP"
       },
       "jacob-bd/gemini-notebook-mcp-cli": {
-        "stars": 6483,
+        "stars": 6486,
         "url": "https://github.com/jacob-bd/gemini-notebook-mcp-cli"
+      },
+      "54yyyu/zotero-mcp": {
+        "stars": 5835,
+        "url": "https://github.com/54yyyu/zotero-mcp"
       },
       "appcypher/awesome-mcp-servers": {
         "stars": 5827,
         "url": "https://github.com/appcypher/awesome-mcp-servers"
       },
-      "54yyyu/zotero-mcp": {
-        "stars": 5816,
-        "url": "https://github.com/54yyyu/zotero-mcp"
-      },
       "executeautomation/mcp-playwright": {
-        "stars": 5679,
+        "stars": 5681,
         "url": "https://github.com/executeautomation/mcp-playwright"
       },
       "nanbingxyz/5ire": {
@@ -989,27 +989,27 @@
         "url": "https://github.com/nanbingxyz/5ire"
       },
       "modelcontextprotocol/go-sdk": {
-        "stars": 5326,
+        "stars": 5328,
         "url": "https://github.com/modelcontextprotocol/go-sdk"
       },
       "modelcontextprotocol/csharp-sdk": {
-        "stars": 4623,
+        "stars": 4625,
         "url": "https://github.com/modelcontextprotocol/csharp-sdk"
       },
       "wong2/awesome-mcp-servers": {
-        "stars": 4407,
+        "stars": 4408,
         "url": "https://github.com/wong2/awesome-mcp-servers"
       },
       "Pimzino/spec-workflow-mcp": {
-        "stars": 4306,
+        "stars": 4307,
         "url": "https://github.com/Pimzino/spec-workflow-mcp"
       },
       "modelcontextprotocol/rust-sdk": {
-        "stars": 4100,
+        "stars": 4104,
         "url": "https://github.com/modelcontextprotocol/rust-sdk"
       },
       "microsoft/mcp": {
-        "stars": 3839,
+        "stars": 3843,
         "url": "https://github.com/microsoft/mcp"
       },
       "modelcontextprotocol/java-sdk": {
@@ -1023,23 +1023,23 @@
     },
     "工作流自动化": {
       "n8n-io/n8n": {
-        "stars": 209884,
+        "stars": 209972,
         "url": "https://github.com/n8n-io/n8n"
       },
       "activepieces/activepieces": {
-        "stars": 25441,
+        "stars": 25459,
         "url": "https://github.com/activepieces/activepieces"
       },
       "automatisch/automatisch": {
-        "stars": 14015,
+        "stars": 14017,
         "url": "https://github.com/automatisch/automatisch"
       },
       "tradesdontlie/tradingview-mcp": {
-        "stars": 7127,
+        "stars": 7143,
         "url": "https://github.com/tradesdontlie/tradingview-mcp"
       },
       "ATH-MaaS/ComfyUI-Copilot": {
-        "stars": 5580,
+        "stars": 5581,
         "url": "https://github.com/ATH-MaaS/ComfyUI-Copilot"
       },
       "iflow-ai/iflow-cli": {
@@ -1047,7 +1047,7 @@
         "url": "https://github.com/iflow-ai/iflow-cli"
       },
       "patched-codes/patchwork": {
-        "stars": 1580,
+        "stars": 1579,
         "url": "https://github.com/patched-codes/patchwork"
       },
       "jmathai/elodie": {
@@ -1055,15 +1055,15 @@
         "url": "https://github.com/jmathai/elodie"
       },
       "nocode-js/sequential-workflow-designer": {
-        "stars": 1484,
+        "stars": 1485,
         "url": "https://github.com/nocode-js/sequential-workflow-designer"
       },
       "dariubs/awesome-workflow-automation": {
-        "stars": 1262,
+        "stars": 1263,
         "url": "https://github.com/dariubs/awesome-workflow-automation"
       },
       "vercel-labs/workflow-builder-template": {
-        "stars": 1239,
+        "stars": 1240,
         "url": "https://github.com/vercel-labs/workflow-builder-template"
       },
       "keinsaasforever/better-chatbot": {
@@ -1091,11 +1091,11 @@
         "url": "https://github.com/bytechefhq/bytechef"
       },
       "Dong90/oh-my-taiyiforge": {
-        "stars": 853,
+        "stars": 854,
         "url": "https://github.com/Dong90/oh-my-taiyiforge"
       },
       "aelassas/wexflow": {
-        "stars": 844,
+        "stars": 845,
         "url": "https://github.com/aelassas/wexflow"
       },
       "8gears/n8n-helm-chart": {
@@ -1103,7 +1103,7 @@
         "url": "https://github.com/8gears/n8n-helm-chart"
       },
       "henrydaum/second-brain": {
-        "stars": 682,
+        "stars": 686,
         "url": "https://github.com/henrydaum/second-brain"
       },
       "alferov/awesome-gulp": {
@@ -1111,11 +1111,11 @@
         "url": "https://github.com/alferov/awesome-gulp"
       },
       "DigneZzZ/remnawave-scripts": {
-        "stars": 605,
+        "stars": 606,
         "url": "https://github.com/DigneZzZ/remnawave-scripts"
       },
       "jbexta/AgentPilot": {
-        "stars": 571,
+        "stars": 572,
         "url": "https://github.com/jbexta/AgentPilot"
       },
       "makafeli/n8n-workflow-builder": {
@@ -1127,25 +1127,19 @@
   "hn": {
     "AI Agent": {
       "Ask HN: What's your current AI agentic setup?": {
-        "points": 564
+        "points": 569
       },
       "OpenShell – A safe, private runtime for fleets of autonomous AI agents": {
         "points": 508
       },
       "We ran AI agent swarms in Minecraft and Mindustry": {
-        "points": 423
+        "points": 425
       },
       "AI coding agents generate more code, but not more software": {
         "points": 365
       },
-      "Talorys – A self-hosted personal AI agent on Cloudflare's free tier": {
-        "points": 331
-      },
       "Dayjob: Tax – evaluating AI agents on 50 professional tax assignments": {
         "points": 266
-      },
-      "500B tokens later: Letting AI agents decompile a first-person shooter": {
-        "points": 218
       },
       "AI agent swarms in Minecraft fail to build civilization, drown in bureaucracy": {
         "points": 180
@@ -1155,6 +1149,12 @@
       },
       "Using thousands of AI agents to uncover new leads in biological data": {
         "points": 160
+      },
+      "Websites are closing their doors to AI agents": {
+        "points": 159
+      },
+      "TV4 postpones show after AI agent erases edited material": {
+        "points": 156
       }
     },
     "LLM 应用": {
@@ -1221,7 +1221,7 @@
     },
     "文生图": {
       "Show HN: A decent text-to-image model trained for ~$20K (Apache 2.0 Weights)": {
-        "points": 285
+        "points": 286
       },
       "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT": {
         "points": 180
@@ -1237,23 +1237,17 @@
       },
       "Show HN: Sectr – Serverless backend platform for easy deployment of AI agents": {
         "points": 6
-      },
-      "Show HN: An online shop where your friends can hurry the courier": {
-        "points": 6
       }
     },
     "文生视频": {
       "Show HN: Subvocal – Talk to your computer without making noise": {
-        "points": 844
+        "points": 847
       },
       "Show HN: A decent text-to-image model trained for ~$20K (Apache 2.0 Weights)": {
-        "points": 285
+        "points": 286
       },
       "Show HN: OnKey – I'm a bad singer, so I built an app to show where I'm off-key": {
         "points": 237
-      },
-      "Show HN: Esp32sim – Run ESP32 firmware in the browser": {
-        "points": 212
       },
       "Launch HN: Momentic (YC W24) – Agents that catch bugs by using your app": {
         "points": 167
@@ -1264,16 +1258,13 @@
       "Did you know you can link to a timestamp in a plain video file?": {
         "points": 8
       },
-      "Show HN: Kids Shelf, your kids' own little internet": {
-        "points": 8
-      },
       "Show HN: Sectr – Serverless backend platform for easy deployment of AI agents": {
         "points": 6
       }
     },
     "语音合成 TTS": {
       "Show HN: Subvocal – Talk to your computer without making noise": {
-        "points": 844
+        "points": 847
       },
       "We turned EmbeddingGemma 2 into a speech-to-text model": {
         "points": 436
@@ -1284,7 +1275,7 @@
     },
     "语音识别 STT": {
       "Show HN: Subvocal – Talk to your computer without making noise": {
-        "points": 844
+        "points": 847
       },
       "We turned EmbeddingGemma 2 into a speech-to-text model": {
         "points": 436
@@ -1306,93 +1297,93 @@
     }
   },
   "showhn": {
-    "Show HN: Subvocal – Talk to your computer without making noise": {
-      "points": 844,
-      "url": "https://news.ycombinator.com/item?id=50340088"
-    },
-    "Show HN: HackerTV – HN's most-recommended Youtube videos as 24/7 TV channels": {
-      "points": 488,
-      "url": "https://hackertv.org"
-    },
-    "Show HN: Hacker Times, a New York Times-inspired version of Hacker News": {
-      "points": 475,
-      "url": "https://hackertimes.ca/"
-    },
-    "Show HN: Warsaw in voxels – An interactive 3D map of the city centre": {
-      "points": 325,
-      "url": "https://p.migdal.pl/warsaw-vibe-voxel/"
-    },
-    "Show HN: A decent text-to-image model trained for ~$20K (Apache 2.0 Weights)": {
-      "points": 285,
-      "url": "https://www.linum.ai/field-notes/pjit-21k"
+    "Show HN: Every satellite that passed over any place this week, and its photos": {
+      "points": 328,
+      "url": "https://www.watched.earth"
     },
     "Show HN: Coldframe, a honeypot that poses as a supermarket fridge controller": {
-      "points": 281,
+      "points": 287,
       "url": "https://github.com/hedgerow-dev/coldframe"
     },
+    "Show HN: A decent text-to-image model trained for ~$20K (Apache 2.0 Weights)": {
+      "points": 286,
+      "url": "https://www.linum.ai/field-notes/pjit-21k"
+    },
     "Show HN: After a decade of reversing, I got co-op working in DOS Wing Commander": {
-      "points": 255,
+      "points": 256,
       "url": "https://fireflyk64.github.io/wcmulti/"
     },
-    "Show HN: I've updated my Linux System Call website and API": {
-      "points": 238,
-      "url": "https://syscall.sh/"
-    },
     "Show HN: Vegetable Gardening for Engineers": {
-      "points": 194,
+      "points": 217,
       "url": "https://jrcpl.us/contrib/2020/gardening-for-engineers/"
     },
     "Show HN: Firenook – Firebase emulators in Rust: 40× faster writes, 10× less RAM": {
-      "points": 171,
+      "points": 173,
       "url": "https://firenook.dev/"
     },
     "Show HN: Uncracked City, detective game where you question LLM suspects that lie": {
       "points": 127,
       "url": "https://uncracked.city"
     },
+    "Show HN: Flide: Make Jev-like decision models up to 9.5x faster": {
+      "points": 123,
+      "url": "https://github.com/OmniJev/Flide"
+    },
     "Show HN: I built a tool that prices a pre-built PC part by part": {
-      "points": 120,
+      "points": 121,
       "url": "https://pcdealcheck.com/"
     },
     "Show HN: Kairos – Open-source risk and fraud decisioning platform": {
-      "points": 106,
+      "points": 107,
       "url": "https://github.com/finic-ai/kairos"
     },
+    "Show HN: DBDelve – Open-Source DB Client Made with Rust and GPUI": {
+      "points": 103,
+      "url": "https://news.ycombinator.com/item?id=50427934"
+    },
+    "Show HN: MeowDisplay Is iPhone Mirroring, but in Reverse": {
+      "points": 97,
+      "url": "https://meowdisplay.app/"
+    },
     "Show HN: Stroq – a local audit of what your coding agent did and why": {
-      "points": 93,
+      "points": 95,
       "url": "https://github.com/AGGIB/Stroq"
     },
+    "Show HN: Someone Was Here – Find out who used your Mac while you were away": {
+      "points": 94,
+      "url": "https://someonewashere.app/"
+    },
     "Show HN: Waymark – A workflow engine that compiles jobs instead of replaying": {
-      "points": 85,
+      "points": 88,
       "url": "https://github.com/piercefreeman/waymark"
     },
-    "Show HN: We compressed a 31B video+audio diffusion model to 14B, 6 steps, INT8": {
-      "points": 79,
-      "url": "https://github.com/Video-Rebirth/hyperflow-h3-flash"
+    "Show HN: STE80 Humanizer – de-AI text by writing 80% of the way to ASD-STE100": {
+      "points": 84,
+      "url": "https://github.com/Dodaios/ste80-humanizer"
     },
-    "Show HN: I built a little browser game to practice Vim commands": {
-      "points": 72,
-      "url": "https://hjkl.duy.run"
+    "Show HN: We compressed a 31B video+audio diffusion model to 14B, 6 steps, INT8": {
+      "points": 83,
+      "url": "https://github.com/Video-Rebirth/hyperflow-h3-flash"
     },
     "Show HN: HackerChurn – which SaaS tools HN wants to cancel": {
       "points": 71,
       "url": "https://hissingkitty.com/hacker-churn"
     },
+    "Show HN: Spindle – a full-featured, type-safe web framework for OCaml 5": {
+      "points": 64,
+      "url": "https://github.com/hyphatech/spindle"
+    },
     "Show HN: Tmux-restore saves tmux windows and agent sessions across reboots": {
       "points": 62,
       "url": "https://github.com/andrewboldi/tmux-restore"
     },
-    "Show HN: Spindle – a full-featured, type-safe web framework for OCaml 5": {
-      "points": 62,
-      "url": "https://github.com/hyphatech/spindle"
-    },
     "Show HN: Where Were We": {
-      "points": 53,
+      "points": 56,
       "url": "https://wherewerewe.app/"
     },
-    "Show HN: The DNA of DOOM – How code structure survives across 44 ports": {
-      "points": 52,
-      "url": "https://squid-protocol.github.io/gitgalaxy/museum-of-code/doom-dna/"
+    "Show HN: JavaScript web apps with WASM layout and GPU rendering in 280 KB": {
+      "points": 46,
+      "url": "https://github.com/rkaehn/uniform"
     },
     "Show HN: Codemap – one-page interactive map of any Go repository": {
       "points": 45,
@@ -1414,10 +1405,6 @@
       "points": 34,
       "url": "https://app.artifactbin.dev/@vivek/AQTt2H-did-prediction-markets-predict-the-midterms"
     },
-    "Show HN: PyWolf3D, a wolfenstein3D clone written from scratch in Python": {
-      "points": 31,
-      "url": "https://github.com/atifcodesalot/pyWolf3D"
-    },
     "Show HN: CloneGuard – Scan a repo for credential-stealing tricks before it runs": {
       "points": 31,
       "url": "https://github.com/tharun208/cloneguard"
@@ -1425,6 +1412,10 @@
     "Show HN: Agents infer Lego mechanisms from sources, then animate them": {
       "points": 31,
       "url": "https://github.com/anteloc/ldraw-mecha/tree/v0.5.0"
+    },
+    "Show HN: Recalc – Spreadsheet where cells can be Claude Code or Codex terminals": {
+      "points": 30,
+      "url": "https://github.com/sshah03/recalc"
     },
     "Show HN: GPUWorks – A 40 MB GPU cluster manager for vLLM/SGLang, no K8s needed": {
       "points": 30,
@@ -1434,25 +1425,13 @@
       "points": 28,
       "url": "https://getbema.app/"
     },
-    "Show HN: Rustable is an open source database client built in Rust": {
+    "Show HN: My compact, bio inspired distributed edge detection algorithm": {
       "points": 28,
-      "url": "https://rustable.app"
-    },
-    "Show HN: JavaScript web apps with WASM layout and GPU rendering in 280 KB": {
-      "points": 25,
-      "url": "https://github.com/rkaehn/uniform"
-    },
-    "Show HN: ReBirth 338 in Browser": {
-      "points": 25,
-      "url": "https://margeux.com/rb338.html"
+      "url": "https://github.com/RenderBear/haci"
     },
     "Show HN: Agentic Identity Broker, OAuth Delegation for AI Agents": {
       "points": 24,
       "url": "https://github.com/zalando-incubator/agentic-identity-broker"
-    },
-    "Show HN: VHS Camera – Run your camera or videos through a simulated VHS signal": {
-      "points": 21,
-      "url": "https://fotojockovic.com/vhs"
     },
     "Show HN: TubeHaus – an open-source YouTube client with no Google account": {
       "points": 21,
@@ -1462,90 +1441,102 @@
       "points": 20,
       "url": "https://github.com/AmSach/maple"
     },
-    "Show HN: Hacker News but for comments posted on HN": {
-      "points": 19,
-      "url": "https://news.ycombinator.com/newcomments"
+    "Show HN: Unclickbait – Replace clickbait YouTube thumbnails": {
+      "points": 15,
+      "url": "https://unclickbait.app/"
+    },
+    "Show HN: Green tests are not proof – verifier for C/C++ and firmware fixes": {
+      "points": 15,
+      "url": "https://unfix.dev/"
+    },
+    "Show HN: An open source webbluetooth and NFC browser for iOS": {
+      "points": 15,
+      "url": "https://github.com/hito-dev/wand-browser"
+    },
+    "Show HN: AegisKernel – Zero-trust POSIX runtime for AI agents in <0.016ms": {
+      "points": 14,
+      "url": "https://adikshatriyag-crypto.github.io/aegis-kernel/"
     }
   },
   "producthunt": {
     "Pancake": {
-      "votes": 605,
+      "votes": 612,
       "url": "https://www.producthunt.com/products/pancake-6/launches/pancake-7"
     },
     "/dev/null": {
-      "votes": 531,
+      "votes": 532,
       "url": "https://www.producthunt.com/products/dev-null/launches/dev-null"
     },
-    "ReSO AI": {
-      "votes": 501,
-      "url": "https://www.producthunt.com/products/reso/launches/reso-ai-2"
-    },
     "beacon.sh": {
-      "votes": 495,
+      "votes": 499,
       "url": "https://www.producthunt.com/products/asymptotelabs"
     },
     "Wanaka Studio": {
-      "votes": 484,
+      "votes": 489,
       "url": "https://www.producthunt.com/products/wanaka-studio"
     },
     "Empacer": {
-      "votes": 476,
+      "votes": 477,
       "url": "https://www.producthunt.com/products/empacer"
     },
     "Screen Studio 4.0": {
-      "votes": 470,
+      "votes": 471,
       "url": "https://www.producthunt.com/products/screen-studio"
     },
     "Product Hunt Visual Launch Editor": {
-      "votes": 463,
+      "votes": 465,
       "url": "https://www.producthunt.com/products/producthunt/launches/product-hunt-visual-launch-editor"
     },
     "Scalekit": {
-      "votes": 426,
+      "votes": 427,
       "url": "https://www.producthunt.com/products/scalekit"
     },
+    "Product Hunt MCP": {
+      "votes": 421,
+      "url": "https://www.producthunt.com/products/producthunt"
+    },
     "Talanoa": {
-      "votes": 410,
+      "votes": 411,
       "url": "https://www.producthunt.com/products/talanoa-2/launches/talanoa-2"
     },
+    "Glasshand": {
+      "votes": 398,
+      "url": "https://www.producthunt.com/products/glasshand"
+    },
     "Beam.win": {
-      "votes": 395,
+      "votes": 394,
       "url": "https://www.producthunt.com/products/beam-win/launches/beam-win"
     },
     "Vaani Developer Platform": {
       "votes": 394,
       "url": "https://www.producthunt.com/products/vaani-developer-platfrom"
     },
+    "Tobira Site Agent": {
+      "votes": 394,
+      "url": "https://www.producthunt.com/products/tobira-ai"
+    },
+    "TheySaid 4.0": {
+      "votes": 391,
+      "url": "https://www.producthunt.com/products/theysaid/launches/theysaid-4-0"
+    },
     "Inbox Zero": {
       "votes": 391,
       "url": "https://www.producthunt.com/products/inbox-zero-2/launches/inbox-zero-7"
     },
-    "Tobira Site Agent": {
-      "votes": 389,
-      "url": "https://www.producthunt.com/products/tobira-ai"
-    },
-    "TheySaid 4.0": {
-      "votes": 389,
-      "url": "https://www.producthunt.com/products/theysaid"
-    },
     "Teamily AI": {
-      "votes": 386,
+      "votes": 388,
       "url": "https://www.producthunt.com/products/teamily-ai-human-ai-social-network"
     },
     "Claude Duet": {
       "votes": 385,
       "url": "https://www.producthunt.com/products/claude/launches/claude-duet"
     },
-    "Glasshand": {
-      "votes": 384,
-      "url": "https://www.producthunt.com/products/glasshand"
-    },
     "DeepCell": {
-      "votes": 373,
+      "votes": 374,
       "url": "https://www.producthunt.com/products/deepcell/launches/deepcell"
     },
     "Jockey by TwelveLabs": {
-      "votes": 367,
+      "votes": 366,
       "url": "https://www.producthunt.com/products/twelvelabs/launches/jockey-by-twelvelabs-2"
     }
   }
